@@ -1,0 +1,34 @@
+class Program {
+int v1[0];
+char v2;
+void metodo1 ( int num1,char c1,boolean b1 ) {
+    boolean localvar1;
+    char localvar2;
+    localvar1 = false;
+    localvar2 = 'a';
+    return 4 + 1;
+    }
+int metodo2 (int num1, int num2) {
+     int n1;
+     char n1;
+     int numero;
+     if (num1) {
+          numero = false;
+          undefinded = 4;
+	}
+    while ('c') {
+	v1[false] = 3;
+	}
+    numero = 4 + true;
+    return true;
+}
+struct felino {
+int patas;
+boolean esGato; 
+}
+void main(int num1) {
+     char res;
+     res = metodo2(4, 'c');
+     felino.patas = 'c';
+}
+ }

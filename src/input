@@ -1,0 +1,7 @@
+set "PATH=%PATH%;C:\Program Files\Java\jdk1.8.0_101\bin"
+SET CLASSPATH=.;C:\Javalib\antlr-4.7.1-complete.jar;%CLASSPATH%
+doskey antlr4=java org.antlr.v4.Tool $*
+doskey grun =java org.antlr.v4.gui.TestRig $*
+cd "C:\Users\admin\Desktop\septimo semestre\Tarea0-2.0\src"
+antlr4 decaf.g4
+javac decaf*.java
