@@ -23,6 +23,7 @@ public class Visitador extends decafBaseVisitor<String> {
     private String locationID;
     private Elemento objetoAnterior = null;
     private Method recentlyCreated = new Method(null, null,  null, null, null, null  );
+    private boolean declaration = false;
 
     public String getError() {
         return error;
@@ -110,7 +111,7 @@ public class Visitador extends decafBaseVisitor<String> {
     @Override public String visitNotValuedList(decafParser.NotValuedListContext ctx) {
         //varType ID '[' NUM ']' ';'
 
-        type = visit(ctx.varType());
+        visit(ctx.varType());
         String id = ctx.ID().getText();
 
         Integer num = Integer.parseInt(ctx.NUM().getText());
@@ -241,6 +242,7 @@ public class Visitador extends decafBaseVisitor<String> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public String visitMethodDecl(decafParser.MethodDeclContext ctx) {
+        declaration = true;
         String id = ctx.ID().getText();
         visit(ctx.methodType());
         String tipo =type;
@@ -1307,6 +1309,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitMethodCallDecl(decafParser.MethodCallDeclContext ctx) {
         //Chequear primero que existe el metodo
+        declaration = false;
         String identificador = ctx.ID().getText();
 
         boolean existente = revisarExistencia(identificador);
