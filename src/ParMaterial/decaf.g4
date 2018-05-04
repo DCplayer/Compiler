@@ -2,7 +2,7 @@ grammar decaf;
 
 ID: LETTER (LETTER|DIGIT)*;
 NUM: ('-')? DIGIT DIGIT*;
-CHAR: LETTER;
+CHAR: '\''LETTER'\'';
 fragment DIGIT: [0-9];
 fragment LETTER: ('a'..'z')|('A'..'Z');
 
@@ -26,7 +26,7 @@ varType:
            |structDeclaration                           # structDeclVar
            |'void'                                      # voidVar ;
 methodDeclaration:
-            methodType ID '(' parameter* ')' block      # methodDecl;
+            methodType ID '(' (parameter |parameter (',' parameter)* )? ')' block    # methodDecl;
 methodType:
             'int'                                       # intMeth
            |'char'                                      # charMeth
@@ -82,7 +82,7 @@ arg:
 
 literal:
             NUM                                         # literalInt
-           |'\'' CHAR '\''                              # literalChar
+           |CHAR                                        # literalChar
            | 'true'                                     # literalTrue
            |'false'                                     # literalFalse;
 

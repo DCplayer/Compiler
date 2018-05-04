@@ -23,6 +23,7 @@ public class Visitador extends decafBaseVisitor<String> {
     private String locationID;
     private Elemento objetoAnterior = null;
     private Method recentlyCreated = new Method(null, null,  null, null, null, null  );
+    private ArrayList<Tuplas> recentlyCreatedTuplas = new ArrayList<>();
     private boolean declaration = false;
 
     public String getError() {
@@ -258,6 +259,13 @@ public class Visitador extends decafBaseVisitor<String> {
         //Falta crear el Metodo :D
         //name, type, signature, return value, type value, symbolTable
         recentlyCreated = new Method(id, tipo, argType, argSignature, argType, null);
+        SyTable tablaParaMetodo = verificadorAmbitos.peek();
+        Tuplas nuevaTupla = new Tuplas(recentlyCreated.getName(), recentlyCreated);
+        tablaParaMetodo.getTablaDeSimbolos().add(nuevaTupla);
+        //Ademas de eso hay que agregar los parametros a la nueva tabla de simbolos
+
+        recentlyCreated =  new Method(null, null,  null, null, null, null  );
+
 
         visit(ctx.block());
         return visitChildren(ctx);
@@ -314,24 +322,30 @@ public class Visitador extends decafBaseVisitor<String> {
         String id = ctx.ID().getText();
         boolean revisado = revisarExistencia(id);
 
-        if(revisado){
-            if(type.equals(tipo)){
-                return ctx.ID().getText();
+        if(!declaration){
+
+            if(revisado){
+                if(type.equals(tipo)){
+                    return ctx.ID().getText();
+                }
+                else{
+                    //Error, el tipo declarado y el tipo del ID no son compatibles
+                    //Error, el tipo declarado y el tipo del ID no son compatibles
+                    type = "null";
+                    return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
+                }
             }
             else{
-                //Error, el tipo declarado y el tipo del ID no son compatibles
-                //Error, el tipo declarado y el tipo del ID no son compatibles
+                //Error ID no existe
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                        ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
+                        ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
+
             }
         }
         else{
-            //Error ID no existe
-            type = "null";
-            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                    ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
-
+            return id;
         }
     }
     /**
@@ -346,37 +360,43 @@ public class Visitador extends decafBaseVisitor<String> {
         String id = ctx.ID().getText();
         boolean revisado = revisarExistencia(id);
 
-        if(revisado){
-            if(objeto instanceof Conjunto){
+        if(!declaration){
 
-                if(type.equals(tipo)){
+            if(revisado){
+                if(objeto instanceof Conjunto){
 
-                    return ctx.ID().getText();
+                    if(type.equals(tipo)){
 
+                        return ctx.ID().getText();
+
+                    }
+                    else{
+                        //Error, el tipo declarado y el tipo del ID no son compatibles
+                        type = "null";
+                        return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
+                    }
                 }
                 else{
-                    //Error, el tipo declarado y el tipo del ID no son compatibles
+                    //Error no es una lista
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                            ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
+                            ". " + ctx.ID().getText()+ " no es una lista.\n";
+
                 }
             }
             else{
-                //Error no es una lista
+                //Error ID no existe
+
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                        ". " + ctx.ID().getText()+ " no es una lista.\n";
+                        ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
 
             }
         }
         else{
-            //Error ID no existe
-            type = "null";
-            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                    ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
-
+            return id;
         }
-
 
     }
     /**
@@ -451,9 +471,7 @@ public class Visitador extends decafBaseVisitor<String> {
             tuplas.add(nuevaTupla);
 
         }
-        if(!recentlyCreated.getName().equals(null)){
-            Tuplas tuplaextra = new Tuplas(recentlyCreated.getName(), recentlyCreated);
-        }
+
 
         SyTable ambitoActual = new SyTable(tuplas);
         verificadorAmbitos.push(ambitoActual);
@@ -1363,7 +1381,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitExpressionArg(decafParser.ExpressionArgContext ctx) {
         //Expresion de argumento, determinara el valor del argumento y el tipo del mismo
-        String prevencion = visit(ctx.varType());
+        String prevencion = visit(ctx.parameterType());
         return ctx.ID().getText();
     }
     /**
@@ -1386,7 +1404,8 @@ public class Visitador extends decafBaseVisitor<String> {
     @Override public String visitLiteralChar(decafParser.LiteralCharContext ctx) {
         //Valor String: CHAR
         type  = "char";
-        return ctx.CHAR().getText();
+        String retorno = ctx.CHAR().getText();
+        return retorno;
     }
     /**
      * {@inheritDoc}
