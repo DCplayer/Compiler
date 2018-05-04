@@ -23,7 +23,6 @@ public class Visitador extends decafBaseVisitor<String> {
     private String locationID;
     private Elemento objetoAnterior = null;
     private Method recentlyCreated = new Method(null, null,  null, null, null, null  );
-    private ArrayList<Tuplas> recentlyCreatedTuplas = new ArrayList<>();
     private boolean declaration = false;
 
     public String getError() {
@@ -97,9 +96,6 @@ public class Visitador extends decafBaseVisitor<String> {
             tabla.getTablaDeSimbolos().add(tupla);
             verificadorAmbitos.push(tabla);
         }
-
-
-
 
         return visitChildren(ctx);
     }
@@ -265,7 +261,6 @@ public class Visitador extends decafBaseVisitor<String> {
         //Ademas de eso hay que agregar los parametros a la nueva tabla de simbolos
 
         recentlyCreated =  new Method(null, null,  null, null, null, null  );
-
 
         visit(ctx.block());
         return visitChildren(ctx);

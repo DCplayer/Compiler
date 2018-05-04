@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b048760f-8be6-46bd-8c6b-e1f65d64a860" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ParMaterial/decaf.g4" afterPath="$PROJECT_DIR$/src/ParMaterial/decaf.g4" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ParMaterial/decaf.interp" afterPath="$PROJECT_DIR$/src/ParMaterial/decaf.interp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ParMaterial/decaf.tokens" afterPath="$PROJECT_DIR$/src/ParMaterial/decaf.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ParMaterial/decafLexer.interp" afterPath="$PROJECT_DIR$/src/ParMaterial/decafLexer.interp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ParMaterial/decafLexer.java" afterPath="$PROJECT_DIR$/src/ParMaterial/decafLexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ParMaterial/decafLexer.tokens" afterPath="$PROJECT_DIR$/src/ParMaterial/decafLexer.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ParMaterial/decafParser.java" afterPath="$PROJECT_DIR$/src/ParMaterial/decafParser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Principal/Visitador.java" afterPath="$PROJECT_DIR$/src/Principal/Visitador.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -42,8 +34,8 @@
       <file leaf-file-name="Visitador.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-265">
-              <caret line="149" column="33" lean-forward="false" selection-start-line="149" selection-start-column="26" selection-end-line="149" selection-end-column="33" />
+            <state relative-caret-position="41">
+              <caret line="238" column="49" lean-forward="true" selection-start-line="238" selection-start-column="49" selection-end-line="238" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -62,8 +54,8 @@
       <file leaf-file-name="decaf.g4" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-102">
-              <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+            <state relative-caret-position="196">
+              <caret line="16" column="70" lean-forward="false" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -83,7 +75,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>MensajeError</find>
       <find>visitador</find>
       <find>geterr</find>
       <find>system</find>
@@ -102,7 +93,6 @@
       <find>paramtype</find>
       <find>stmhelp</find>
       <find>paramlistty</find>
-      <find>methoddecl</find>
       <find>expressionarg</find>
       <find>CHAR</find>
       <find>Methoddecl</find>
@@ -111,6 +101,10 @@
       <find>recentlycre</find>
       <find>recently</find>
       <find>vardecl</find>
+      <find>blockdecl</find>
+      <find>notValuedVar</find>
+      <find>blockhelp</find>
+      <find>methoddecl</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -332,7 +326,7 @@
       <workItem from="1525444881622" duration="396000" />
       <workItem from="1525446371850" duration="2992000" />
       <workItem from="1525459300141" duration="300000" />
-      <workItem from="1525460475921" duration="4686000" />
+      <workItem from="1525460475921" duration="7328000" />
     </task>
     <task id="LOCAL-00001" summary="Creando nuevo proyecto, funciona con el App">
       <created>1524636526279</created>
@@ -359,11 +353,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31489000" />
+    <option name="totallyTimeSpent" value="34131000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -375,7 +368,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31034482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31034482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -444,7 +437,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>608</line>
+          <line>603</line>
           <properties class="Principal.Visitador" method="visitAssignStm">
             <option name="EMULATED" value="true" />
           </properties>
@@ -452,7 +445,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>1403</line>
+          <line>1398</line>
           <properties class="Principal.Visitador" method="visitLiteralChar">
             <option name="EMULATED" value="true" />
           </properties>
@@ -460,7 +453,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>1032</line>
+          <line>1027</line>
           <properties class="Principal.Visitador" method="visitLiteralExp">
             <option name="EMULATED" value="true" />
           </properties>
@@ -468,7 +461,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>244</line>
+          <line>240</line>
           <properties class="Principal.Visitador" method="visitMethodDecl">
             <option name="EMULATED" value="true" />
           </properties>
@@ -476,32 +469,34 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>447</line>
+          <line>442</line>
           <properties class="Principal.Visitador" method="visitStmHelp">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>487</line>
-          <properties />
-          <option name="timeStamp" value="23" />
+          <line>452</line>
+          <properties class="Principal.Visitador" method="visitBlockDecl">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>269</line>
+          <line>264</line>
           <properties />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>617</line>
+          <line>612</line>
           <properties />
           <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="27" />
+      <option name="time" value="28" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -792,14 +787,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102">
-          <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/parser/Elemento.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -808,10 +795,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="16" column="70" lean-forward="false" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-265">
-          <caret line="149" column="33" lean-forward="false" selection-start-line="149" selection-start-column="26" selection-end-line="149" selection-end-column="33" />
+        <state relative-caret-position="41">
+          <caret line="238" column="49" lean-forward="true" selection-start-line="238" selection-start-column="49" selection-end-line="238" selection-end-column="49" />
           <folding />
         </state>
       </provider>
