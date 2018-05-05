@@ -26,6 +26,7 @@ public class Visitador extends decafBaseVisitor<String> {
     private Method recentlyCreated = new Method(null, null,  null, null, null, null  );
     private boolean declaration = false;
 
+    private ArrayList<Tuplas> recentlyCreatedTuplas = new ArrayList<>();
     public String getError() {
         return error;
     }
@@ -114,27 +115,40 @@ public class Visitador extends decafBaseVisitor<String> {
         String id = ctx.ID().getText();
 
         Integer num = Integer.parseInt(ctx.NUM().getText());
-        //name, type, signature, cantElement, isStruct, tipoStruct
-        boolean isStruct = false;
-        String tipoStruct = null;
 
-        if(!(type.equals("int") || type.equals("boolean") || type.equals("char")|| type.equals("void"))){
-            isStruct = true;
-            tipoStruct = id;
-        }
-        Conjunto lista = new Conjunto(id, type, null, num , isStruct, tipoStruct);
-        Tuplas tupla = new Tuplas(lista.getName(), lista);
-        ArrayList<Tuplas> tuplas = new ArrayList<>();
-        SyTable tabla = new SyTable(tuplas);
-        if(!(verificadorAmbitos.size() == 0))  {
-            tabla = verificadorAmbitos.peek();
-            tabla.getTablaDeSimbolos().add(tupla);
+        if(num > 0){
+            //name, type, signature, cantElement, isStruct, tipoStruct
+            boolean isStruct = false;
+            String tipoStruct = null;
+
+            if(!(type.equals("int") || type.equals("boolean") || type.equals("char")|| type.equals("void"))){
+                isStruct = true;
+                tipoStruct = id;
+            }
+            Conjunto lista = new Conjunto(id, type, null, num , isStruct, tipoStruct);
+            Tuplas tupla = new Tuplas(lista.getName(), lista);
+            ArrayList<Tuplas> tuplas = new ArrayList<>();
+            SyTable tabla = new SyTable(tuplas);
+            if(!(verificadorAmbitos.size() == 0))  {
+                tabla = verificadorAmbitos.peek();
+                tabla.getTablaDeSimbolos().add(tupla);
+            }
+            else{
+                tabla.getTablaDeSimbolos().add(tupla);
+                verificadorAmbitos.push(tabla);
+            }
+
         }
         else{
-            tabla.getTablaDeSimbolos().add(tupla);
-            verificadorAmbitos.push(tabla);
-        }
+            //Error, la cantidad de la lista es  un entero 0 o negativo
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
+            insertarError(erroneo);
+            type = "null";
+            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.ID().getText()+ " la lista fue iniciada con un numero ilogico de registros.\n";
 
+        }
 
         return visitChildren(ctx);
     }
@@ -246,14 +260,6 @@ public class Visitador extends decafBaseVisitor<String> {
         visit(ctx.methodType());
         String tipo =type;
 
-        // hay que ver si existe y se crea una nueva signature o bien que
-        List<decafParser.ParameterContext> parametros = ctx.parameter();
-        for(decafParser.ParameterContext p: parametros){
-            String parametro = visit(p);
-            argType.add(type);
-            argSignature.add(parametro);
-        }
-
         //Falta crear el Metodo :D
         //name, type, signature, return value, type value, symbolTable
         recentlyCreated = new Method(id, tipo, argType, argSignature, argType, null);
@@ -263,6 +269,16 @@ public class Visitador extends decafBaseVisitor<String> {
         //Ademas de eso hay que agregar los parametros a la nueva tabla de simbolos
 
         recentlyCreated =  new Method(null, null,  null, null, null, null  );
+
+        // hay que ver si existe y se crea una nueva signature o bien que
+        List<decafParser.ParameterContext> parametros = ctx.parameter();
+        for(decafParser.ParameterContext p: parametros){
+            String parametro = visit(p);
+            argType.add(type);
+            argSignature.add(parametro);
+        }
+
+
 
         visit(ctx.block());
         return visitChildren(ctx);
@@ -347,6 +363,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
         }
         else{
+            //Aqui si se esta declarando el tipo de parametro
+            SyTable tablaTemporal = verificadorAmbitos.peek();
+            Tuplas tupla = new Tuplas(id, objeto);
             return id;
         }
     }
@@ -405,6 +424,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
         }
         else{
+            //Aqui si se esta declarando el tipo de parametro
+            SyTable tablaTemporal = verificadorAmbitos.peek();
+            Tuplas tupla = new Tuplas(id, objeto);
             return id;
         }
 
@@ -481,7 +503,6 @@ public class Visitador extends decafBaseVisitor<String> {
             tuplas.add(nuevaTupla);
 
         }
-
 
         SyTable ambitoActual = new SyTable(tuplas);
         verificadorAmbitos.push(ambitoActual);
@@ -922,31 +943,45 @@ public class Visitador extends decafBaseVisitor<String> {
 
 
         if(revision){
-            if(objeto instanceof List){
+            if(objeto instanceof Conjunto){
                 String tipoLista = type;
                 String expresion = visit(ctx.expression());
                 if(type.equals("int")){
-                    String posssibleGuion = expresion.substring(0,1);
-                    if(!posssibleGuion.equals("-")){
-                        //Obtener la instancia de Line
+                    Integer num = Integer.parseInt(expresion);
+                    if(num >=0){
+                        //chequear si el numero esta dentro del rango de elementos de la lista
                         Conjunto temporal = (Conjunto) objeto;
-                        try{
-                            int indice = Integer.parseInt(visit(ctx.expression()));
-                            String value = "" + temporal.getContenido().get(indice);
-                            type = tipoLista;
-                            objeto  = (Elemento) temporal.getContenido().get(indice);
-                            objetoAnterior = null;
-                            return value;
+                        if(temporal.getCantElementos() > num){
+                            //Obtener la instancia de Line
 
-                        }catch (Exception IndexOutOfBounds ){
+                            try{
+                                int indice = Integer.parseInt(visit(ctx.expression()));
+                                String value = "" + temporal.getContenido().get(indice);
+                                type = tipoLista;
+                                objeto  = (Elemento) temporal.getContenido().get(indice);
+                                objetoAnterior = null;
+                                return value;
+
+                            }catch (Exception IndexOutOfBounds ){
+                                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                        ". " + ctx.ID().getText() + " IndexOutOfBounds, posee:  "+ temporal.getCantElementos()+
+                                        " elementos, se pidio el elemento " + ctx.expression().getText()+ ".\n";
+                                insertarError(erroneo);
+                                type = "null";
+                                return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                        ". " + ctx.ID().getText() + " IndexOutOfBounds, posee:  "+ temporal.getCantElementos()+
+                                        " elementos, se pidio el elemento " + ctx.expression().getText()+ ".\n";
+
+                            }
+                        }
+                        else{
+                            //Error indexOutOfBounds
                             String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                                    ". " + ctx.ID().getText() + " IndexOutOfBounds, posee:  "+ temporal.getCantElementos()+
-                                    " elementos, se pidio el elemento " + ctx.expression().getText()+ ".\n";
+                                    ". " + expresion + " no es de tipo 'int'.\n";
                             insertarError(erroneo);
                             type = "null";
                             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                                    ". " + ctx.ID().getText() + " IndexOutOfBounds, posee:  "+ temporal.getCantElementos()+
-                                    " elementos, se pidio el elemento " + ctx.expression().getText()+ ".\n";
+                                    ". " + id + "["+ num+"]. IndexOutOfBounds.\n";
 
                         }
 

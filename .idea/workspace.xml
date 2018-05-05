@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b048760f-8be6-46bd-8c6b-e1f65d64a860" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Principal/Visitador.java" afterPath="$PROJECT_DIR$/src/Principal/Visitador.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/codebind/App.java" afterPath="$PROJECT_DIR$/src/com/codebind/App.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/parser/SyTable.java" afterPath="$PROJECT_DIR$/src/parser/SyTable.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,10 +15,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="App.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/codebind/App.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
+            <state relative-caret-position="-272">
               <caret line="88" column="49" lean-forward="false" selection-start-line="88" selection-start-column="49" selection-end-line="88" selection-end-column="49" />
               <folding />
             </state>
@@ -35,49 +35,24 @@
       <file leaf-file-name="Visitador.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
-              <caret line="334" column="34" lean-forward="false" selection-start-line="334" selection-start-column="27" selection-end-line="334" selection-end-column="34" />
+            <state relative-caret-position="-15704">
+              <caret line="730" column="66" lean-forward="false" selection-start-line="730" selection-start-column="47" selection-end-line="730" selection-end-column="66" />
               <folding>
                 <element signature="e#749#757#0" expanded="true" />
-                <element signature="e#44770#44771#0" expanded="true" />
-                <element signature="e#44811#44812#0" expanded="true" />
-                <element signature="e#64951#64952#0" expanded="true" />
-                <element signature="e#64988#64989#0" expanded="true" />
+                <element signature="e#46788#46789#0" expanded="true" />
+                <element signature="e#46829#46830#0" expanded="true" />
+                <element signature="e#66969#66970#0" expanded="true" />
+                <element signature="e#67006#67007#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="decafParser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ParMaterial/decafParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="1507" column="0" lean-forward="false" selection-start-line="1507" selection-start-column="0" selection-end-line="1507" selection-end-column="0" />
-              <folding>
-                <element signature="e#28082#28083#0" expanded="true" />
-                <element signature="e#28138#28139#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractParseTreeVisitor.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding>
-                <element signature="e#347#348#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tuplas.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/parser/Tuplas.java">
+      <file leaf-file-name="Symbol.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/parser/Symbol.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <caret line="4" column="23" lean-forward="true" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -86,14 +61,14 @@
       <file leaf-file-name="decaf.g4" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="16" column="70" lean-forward="false" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="70" />
+            <state relative-caret-position="146">
+              <caret line="59" column="65" lean-forward="false" selection-start-line="59" selection-start-column="65" selection-end-line="59" selection-end-column="65" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Elemento.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Elemento.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/parser/Elemento.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
@@ -107,16 +82,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>system</find>
-      <find>peek</find>
-      <find>PanelCodigoEnsamblador</find>
-      <find>null</find>
-      <find>revisarExistencia</find>
-      <find>push</find>
-      <find>visitnotvalue</find>
-      <find>vartype</find>
-      <find>notvalue</find>
-      <find>varType</find>
       <find>intVar</find>
       <find>str</find>
       <find>methodcallde</find>
@@ -126,7 +91,6 @@
       <find>expressionarg</find>
       <find>CHAR</find>
       <find>Methoddecl</find>
-      <find>methodDecl</find>
       <find>recentlyCreated</find>
       <find>recentlycre</find>
       <find>recently</find>
@@ -134,9 +98,20 @@
       <find>blockdecl</find>
       <find>notValuedVar</find>
       <find>blockhelp</find>
-      <find>methoddecl</find>
       <find>error</find>
       <find>error+=</find>
+      <find>notValuedList</find>
+      <find>num &gt; 0</find>
+      <find>listLoc</find>
+      <find>ifDeclStm</find>
+      <find>methodDecl</find>
+      <find>list</find>
+      <find>methoddecl</find>
+      <find>blockdec</find>
+      <find>block</find>
+      <find>no es un symbolo o una lista</find>
+      <find>listloc</find>
+      <find>symbolo o una lista</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -153,8 +128,9 @@
         <option value="$PROJECT_DIR$/src/com/codebind/App.form" />
         <option value="$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
         <option value="$PROJECT_DIR$/src/ParMaterial/decaf.g4" />
-        <option value="$PROJECT_DIR$/src/Principal/Visitador.java" />
         <option value="$PROJECT_DIR$/src/com/codebind/App.java" />
+        <option value="$PROJECT_DIR$/src/parser/SyTable.java" />
+        <option value="$PROJECT_DIR$/src/Principal/Visitador.java" />
       </list>
     </option>
   </component>
@@ -359,7 +335,7 @@
       <workItem from="1525446371850" duration="2992000" />
       <workItem from="1525459300141" duration="300000" />
       <workItem from="1525460475921" duration="7328000" />
-      <workItem from="1525481308221" duration="9351000" />
+      <workItem from="1525481308221" duration="18126000" />
     </task>
     <task id="LOCAL-00001" summary="Creando nuevo proyecto, funciona con el App">
       <created>1524636526279</created>
@@ -386,7 +362,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43482000" />
+    <option name="totallyTimeSpent" value="52257000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -402,7 +378,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31034482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31034482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -414,7 +390,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42036125" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42036125" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -471,15 +447,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>627</line>
-          <properties class="Principal.Visitador" method="visitAssignStm">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>1550</line>
+          <line>1585</line>
           <properties class="Principal.Visitador" method="visitLiteralChar">
             <option name="EMULATED" value="true" />
           </properties>
@@ -487,50 +455,14 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>1121</line>
-          <properties class="Principal.Visitador" method="visitLiteralExp">
+          <line>701</line>
+          <properties class="Principal.Visitador" method="visitSimpleLoc">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>242</line>
-          <properties class="Principal.Visitador" method="visitMethodDecl">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>457</line>
-          <properties class="Principal.Visitador" method="visitStmHelp">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>467</line>
-          <properties class="Principal.Visitador" method="visitBlockDecl">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>266</line>
-          <properties />
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Principal/Visitador.java</url>
-          <line>636</line>
-          <properties />
-          <option name="timeStamp" value="26" />
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="28" />
+      <option name="time" value="33" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -570,10 +502,10 @@
           <caret line="238" column="49" lean-forward="true" selection-start-line="238" selection-start-column="49" selection-end-line="238" selection-end-column="49" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -605,10 +537,10 @@
           <caret line="1405" column="6" lean-forward="false" selection-start-line="1405" selection-start-column="6" selection-end-line="1405" selection-end-column="6" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -632,10 +564,10 @@
           <caret line="1405" column="6" lean-forward="true" selection-start-line="1405" selection-start-column="6" selection-end-line="1405" selection-end-column="6" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -659,10 +591,10 @@
           <caret line="612" column="37" lean-forward="false" selection-start-line="612" selection-start-column="37" selection-end-line="612" selection-end-column="37" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -725,10 +657,10 @@
           <caret line="612" column="37" lean-forward="true" selection-start-line="612" selection-start-column="37" selection-end-line="612" selection-end-column="37" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -777,10 +709,10 @@
           <caret line="1400" column="46" lean-forward="false" selection-start-line="1400" selection-start-column="46" selection-end-line="1400" selection-end-column="46" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -829,10 +761,10 @@
           <caret line="1400" column="46" lean-forward="true" selection-start-line="1400" selection-start-column="46" selection-end-line="1400" selection-end-column="46" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -851,10 +783,10 @@
           <caret line="98" column="0" lean-forward="false" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
           <folding>
             <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -880,13 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser/Conjunto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/codebind/App.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
@@ -896,22 +821,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser/Elemento.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="16" column="70" lean-forward="false" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="70" />
           <folding />
         </state>
       </provider>
@@ -937,24 +846,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
+    <entry file="file://$PROJECT_DIR$/src/com/codebind/App.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="334" column="34" lean-forward="false" selection-start-line="334" selection-start-column="27" selection-end-line="334" selection-end-column="34" />
+        <state relative-caret-position="-272">
+          <caret line="88" column="49" lean-forward="false" selection-start-line="88" selection-start-column="49" selection-end-line="88" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser/SyTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="46" lean-forward="false" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
           <folding>
-            <element signature="e#749#757#0" expanded="true" />
-            <element signature="e#44770#44771#0" expanded="true" />
-            <element signature="e#44811#44812#0" expanded="true" />
-            <element signature="e#64951#64952#0" expanded="true" />
-            <element signature="e#64988#64989#0" expanded="true" />
+            <element signature="e#171#172#0" expanded="true" />
+            <element signature="e#225#226#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/codebind/App.java">
+    <entry file="file://$PROJECT_DIR$/src/parser/Conjunto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="88" column="49" lean-forward="false" selection-start-line="88" selection-start-column="49" selection-end-line="88" selection-end-column="49" />
+        <state relative-caret-position="-34">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="59" column="65" lean-forward="false" selection-start-line="59" selection-start-column="65" selection-end-line="59" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser/Symbol.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="4" column="23" lean-forward="true" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-15704">
+          <caret line="730" column="66" lean-forward="false" selection-start-line="730" selection-start-column="47" selection-end-line="730" selection-end-column="66" />
+          <folding>
+            <element signature="e#749#757#0" expanded="true" />
+            <element signature="e#46788#46789#0" expanded="true" />
+            <element signature="e#46829#46830#0" expanded="true" />
+            <element signature="e#66969#66970#0" expanded="true" />
+            <element signature="e#67006#67007#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser/Elemento.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
           <folding />
         </state>
       </provider>

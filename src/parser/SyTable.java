@@ -6,7 +6,7 @@ public class SyTable {
     private ArrayList<Tuplas> tablaDeSimbolos;
 
     public SyTable(ArrayList<Tuplas> tablaDeSimbolos) {
-        this.tablaDeSimbolos = new ArrayList<Tuplas>();
+        this.tablaDeSimbolos = tablaDeSimbolos;
     }
 
     public ArrayList<Tuplas> getTablaDeSimbolos() {
