@@ -12,9 +12,9 @@ public class Conjunto extends Elemento{
     private boolean isStruct;
     private String tipoStruct;
 
-    public Conjunto(String name, String type, ArrayList<ArrayList<String>> signature, int cantElementos,
-                    boolean isStruct, String tipoStruct) {
-        super(name, type, null);
+    public Conjunto(String name, String type, ArrayList<String> signature, int cantElementos,
+                    boolean isStruct, String tipoStruct, boolean symbol, boolean method, boolean conjunto) {
+        super(name, type, signature, symbol, method, conjunto);
         this.cantElementos = cantElementos;
         this.isStruct = isStruct;
         this.tipoStruct = tipoStruct;

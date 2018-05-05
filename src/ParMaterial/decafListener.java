@@ -644,6 +644,42 @@ public interface decafListener extends ParseTreeListener {
 	 */
 	void exitExpressionArg(decafParser.ExpressionArgContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code argumentTypeInt}
+	 * labeled alternative in {@link decafParser#argumentType}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgumentTypeInt(decafParser.ArgumentTypeIntContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code argumentTypeInt}
+	 * labeled alternative in {@link decafParser#argumentType}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgumentTypeInt(decafParser.ArgumentTypeIntContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code argumentTypeChar}
+	 * labeled alternative in {@link decafParser#argumentType}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgumentTypeChar(decafParser.ArgumentTypeCharContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code argumentTypeChar}
+	 * labeled alternative in {@link decafParser#argumentType}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgumentTypeChar(decafParser.ArgumentTypeCharContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code argumentTypeBool}
+	 * labeled alternative in {@link decafParser#argumentType}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgumentTypeBool(decafParser.ArgumentTypeBoolContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code argumentTypeBool}
+	 * labeled alternative in {@link decafParser#argumentType}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgumentTypeBool(decafParser.ArgumentTypeBoolContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code literalInt}
 	 * labeled alternative in {@link decafParser#literal}.
 	 * @param ctx the parse tree

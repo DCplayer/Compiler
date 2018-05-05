@@ -10,8 +10,9 @@ public class Symbol extends Elemento {
     private Stack<SyTable> symbolTable;
 
 
-    public Symbol(String name, String type, ArrayList<String> signature, String returnValue, boolean isStruct, Stack<SyTable> symbolTable) {
-        super(name, type, signature);
+    public Symbol(String name, String type, ArrayList<String> signature, String returnValue, boolean isStruct,
+                  Stack<SyTable> symbolTable, boolean symbol, boolean method, boolean conjunto) {
+        super(name, type, signature, symbol, method, conjunto);
         this.returnValue = returnValue;
         this.isStruct = isStruct;
         this.symbolTable = symbolTable;
@@ -28,6 +29,10 @@ public class Symbol extends Elemento {
 
     public Stack<SyTable> getSymbolTable() {
         return symbolTable;
+    }
+
+    public void setSymbolTable(Stack<SyTable> symbolTable) {
+        this.symbolTable = symbolTable;
     }
 }
 
