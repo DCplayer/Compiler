@@ -18,6 +18,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,12 +73,24 @@ public class App {
                 MensajeError.removeAll();
                 MensajeError.updateUI();
 
-                String error = visitador.getError();
+                /*String error = visitador.getError();
                 if(error.equals("")){
                     MensajeError.setText("Codigo Exitoso, Semantica Correcta");
                 }
                 else{
                     MensajeError.setText(visitador.getError());
+                }*/
+
+                ArrayList<String> errores = visitador.getListaDeErrores();
+                if(errores.size() <= 0 ){
+                    MensajeError.setText("Codigo Exitoso, Semantica Correcta");
+                }
+                else{
+                    String resultadoErrores = "";
+                    for(String r: errores){
+                        resultadoErrores= resultadoErrores + r + "\n";
+                    }
+                    MensajeError.setText(resultadoErrores);
                 }
 
                 //TreeViewer bosque = new TreeViewer(Arrays.asList(parser.getRuleNames()), tree );

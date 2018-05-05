@@ -19,6 +19,7 @@ public class Visitador extends decafBaseVisitor<String> {
     private ArrayList<String> argType = new ArrayList<>();
     private String type;
     private String error = "";
+    private ArrayList<String> listaDeErrores = new ArrayList<String>();
     private Elemento objeto;
     private String locationID;
     private Elemento objetoAnterior = null;
@@ -36,6 +37,7 @@ public class Visitador extends decafBaseVisitor<String> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public String visitInitProgram(decafParser.InitProgramContext ctx) {
+        listaDeErrores = new ArrayList<>();
         List<decafParser.DeclarationContext> dc = ctx.declaration();
 
         for(decafParser.DeclarationContext g: dc){
@@ -327,16 +329,21 @@ public class Visitador extends decafBaseVisitor<String> {
                     //Error, el tipo declarado y el tipo del ID no son compatibles
                     //Error, el tipo declarado y el tipo del ID no son compatibles
                     type = "null";
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
+                    insertarError(erroneo);
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                             ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
                 }
             }
             else{
                 //Error ID no existe
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
-
             }
         }
         else{
@@ -367,6 +374,9 @@ public class Visitador extends decafBaseVisitor<String> {
                     }
                     else{
                         //Error, el tipo declarado y el tipo del ID no son compatibles
+                        String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
+                        insertarError(erroneo);
                         type = "null";
                         return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                                 ". " + ctx.ID().getText()+ " no es de tipo  "+ type +" .\n";
@@ -374,6 +384,9 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //Error no es una lista
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + ctx.ID().getText()+ " no es una lista.\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                             ". " + ctx.ID().getText()+ " no es una lista.\n";
@@ -382,7 +395,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //Error ID no existe
-
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
@@ -503,6 +518,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, el tipo de expression no es booleano
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.expression().getText()+ " no es una expression de tipo 'boolean'.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + ctx.expression().getText()+ " no es una expression de tipo 'boolean'.\n";
@@ -528,6 +546,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, el tipo de expression no es booleano
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.expression().getText()+ " no es una expression de tipo 'boolean'.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + ctx.expression().getText()+ " no es una expression de tipo 'boolean'.\n";
@@ -550,6 +571,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, el tipo de expression no es booleano
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.expression().getText()+ " no es una expression de tipo 'boolean'.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + ctx.expression().getText()+ " no es una expression de tipo 'boolean'.\n";
@@ -620,6 +644,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, los tipos de la asignacion no son iguales y no son null
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.location().getText() + " y " + ctx.expression().getText() + " no son del mismo tipo.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + ctx.location().getText() + " y " + ctx.expression().getText() + " no son del mismo tipo.\n";
@@ -671,11 +698,17 @@ public class Visitador extends decafBaseVisitor<String> {
                 return id;
             }
             else if (objeto instanceof Method){
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + id + " Debe de ser una lista o un simbolo, no un metodo.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + id + " Debe de ser una lista o un simbolo, no un metodo.\n";
             }
             else{
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + id + " no es un symbolo o una lista.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + id + " no es un symbolo o una lista.\n";
@@ -684,6 +717,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, ID no existente
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + id + " no ha sido declarado.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + id + " no ha sido declarado.\n";
@@ -725,6 +761,10 @@ public class Visitador extends decafBaseVisitor<String> {
 
                 else{
                     //No es Struct, no puede obtener un ID.location
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + id + " no es un Struct, no puede obtenerse la " +
+                            "condicion de atributo por medio de '.' .\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                             ". " + id + " no es un Struct, no puede obtenerse la " +
@@ -733,6 +773,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //No es symbol, fijo es method o List
+                String erroneo ="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + id + " no es un Symbol, es una Lista o un Method :D.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + id + " no es un Symbol, es una Lista o un Method :D.\n";
@@ -741,6 +784,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, ID no existente
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + id + " no ha sido declarado.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + id + " no ha sido declarado.\n";
@@ -789,6 +835,9 @@ public class Visitador extends decafBaseVisitor<String> {
 
                             }
                             else{
+                                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                        ". " + ctx.location().getText() + " no existe o no pudo ser encontrado.\n";
+                                insertarError(erroneo);
                                 type = "null";
                                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                                         ". " + ctx.location().getText() + " no existe o no pudo ser encontrado.\n";
@@ -797,6 +846,9 @@ public class Visitador extends decafBaseVisitor<String> {
                         }
                         else{
                             //Contenido de la lista no es struct, marcar error.
+                            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                    ". " + id + " no es una lista con Structs.\n";
+                            insertarError(erroneo);
                             type = "null";
                             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                                     ". " + id + " no es una lista con Structs.\n";
@@ -805,6 +857,10 @@ public class Visitador extends decafBaseVisitor<String> {
                     }
                     else{
                         //Error, no es una lista, la estructura esta mal
+                        String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                ". " + ctx.ID().getText()+ " no es una lista, no puede obtenerse el [ "
+                                + ctx.expression().getText()+"] dato.\n";
+                        insertarError(erroneo);
                         type = "null";
                         return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                                 ". " + ctx.ID().getText()+ " no es una lista, no puede obtenerse el [ "
@@ -814,6 +870,9 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //Error, ID no existente
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + id + " no existe, no ha sido creado.\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                             ". " + id + " no existe, no ha sido creado.\n";
@@ -823,6 +882,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //Es un numero negativo
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + expresion + " no es un numero positivo..\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + expresion + " no es un numero positivo..\n";
@@ -832,6 +894,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Expression no es de tipo int
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.expression().getText() + " no es de tipo int.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + ctx.expression().getText() + " no es de tipo int.\n";
@@ -874,6 +939,10 @@ public class Visitador extends decafBaseVisitor<String> {
                             return value;
 
                         }catch (Exception IndexOutOfBounds ){
+                            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                    ". " + ctx.ID().getText() + " IndexOutOfBounds, posee:  "+ temporal.getCantElementos()+
+                                    " elementos, se pidio el elemento " + ctx.expression().getText()+ ".\n";
+                            insertarError(erroneo);
                             type = "null";
                             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                                     ". " + ctx.ID().getText() + " IndexOutOfBounds, posee:  "+ temporal.getCantElementos()+
@@ -885,6 +954,9 @@ public class Visitador extends decafBaseVisitor<String> {
                     else{
                         //NUmero negativo
                         //Expr no es de tipo int
+                        String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                ". " + expresion + " es un numero negativo, no puede ser indice.\n";
+                        insertarError(erroneo);
                         type = "null";
                         return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                                 ". " + expresion + " es un numero negativo, no puede ser indice.\n";
@@ -893,6 +965,9 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //Expr no es de tipo int
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + expresion + " no es de tipo 'int'.\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                             ". " + expresion + " no es de tipo 'int'.\n";
@@ -901,6 +976,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //error, no es instancia de una lista
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + id + " No es una instancia de Lista.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + id + " No es una instancia de Lista.\n";
@@ -910,6 +988,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, ID no existente
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + id + " no ha sido declarado.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + id + " no ha sido declarado.\n";
@@ -967,6 +1048,10 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //No es ningun signo esperado
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + ctx.expression(1).getText()+ " no es una expression de tipo 'int'.\n";
+                    insertarError(erroneo);
+                    type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                             ". " + ctx.expression(1).getText()+ " no es una expression de tipo 'int'.\n";
 
@@ -974,6 +1059,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //La segunda expresion no es tipo int
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + ctx.expression(1).getText()+ " no es una expression de tipo 'int'.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + ctx.expression(1).getText()+ " no es una expression de tipo 'int'.\n";
@@ -981,6 +1069,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error porque no es tipo int
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.expression(0).getText()+ " no es una expression de tipo 'int'.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + ctx.expression(0).getText()+ " no es una expression de tipo 'int'.\n";
@@ -1012,6 +1103,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //valor no es de tipo int, no se puede hacer dash;
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.expression().getText() + " no es una expression de tipo 'int'.\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                     ". " + ctx.expression().getText() + " no es una expression de tipo 'int'.\n";
@@ -1072,6 +1166,9 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //Expression 2 no es booleana
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + ctx.expression(1).getText()+ " no es una expression booleana.\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                             ". " + ctx.expression(1).getText()+ " no es una expression booleana.\n";
@@ -1079,6 +1176,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //Expression 1 no es booleana
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + ctx.expression(0).getText()+ " no es una expression booleana.\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
                         ". " + ctx.expression(0).getText()+ " no es una expression booleana.\n";
@@ -1089,8 +1189,12 @@ public class Visitador extends decafBaseVisitor<String> {
         else{
             //Esto mostrara error porque la operacion que esta enmedio no es
             //una condicional
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". Se esperaba signo '&&' o '||'.\n";
+            insertarError(erroneo);
             type = "null";
-            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". Se esperaba signo '&&' o '||'.\n";
+            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". Se esperaba signo '&&' o '||'.\n";
         }
     }
     /**
@@ -1152,8 +1256,12 @@ public class Visitador extends decafBaseVisitor<String> {
             }
         }
         else{
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". Se esperaba signo '==' o '!='.\n";
+            insertarError(erroneo);
             type = "null";
-            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". Se esperaba signo '==' o '!='.\n";
+            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". Se esperaba signo '==' o '!='.\n";
         }
 
     }
@@ -1178,14 +1286,22 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //Error porque no tiene ninguno de los valores booleanos esperados
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". Valor booleano esperado.\n";
+                insertarError(erroneo);
                 type = "null";
-                return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". Valor booleano esperado.\n";
+                return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". Valor booleano esperado.\n";
             }
         }
         else{
             //Mostrar error porque lo que se quiere negar no es un booleano
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". Valor booleano esperado.\n";
+            insertarError(erroneo);
             type = "null";
-            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". Valor booleano esperado.\n";
+            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". Valor booleano esperado.\n";
         }
 
     }
@@ -1221,6 +1337,9 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //Exp2 no es de tipo int
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                            + ". Second expression type = "+ type +", expected 'int'\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                             + ". Second expression type = "+ type +", expected 'int'\n";
@@ -1228,6 +1347,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //exp1 no es de tipo int
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                        + ". First expression type = "+ type +", expected 'int'\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                         + ". First expression type = "+ type +", expected 'int'\n";
@@ -1236,6 +1358,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //No es ninguno de los operadores esperados
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                    + ". Expected '*', '/', '%' operators, got "+ opearation +" opearator\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                     + ". Expected '*', '/', '%' operators, got "+ opearation +" opearator\n";
@@ -1270,6 +1395,9 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //exp2 no es de tipo int
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                            + ". Expected 'int', second expression type =. "+ type +"\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                             + ". Expected 'int', second expression type =. "+ type +"\n";
@@ -1285,6 +1413,9 @@ public class Visitador extends decafBaseVisitor<String> {
                     }
                     else{
                         //No se puede hacer resta de char :D solo concatenacion
+                        String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                                + ". Non exisitent substraction of 'char'\n";
+                        insertarError(erroneo);
                         type = "null";
                         return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                                 + ". Non exisitent substraction of 'char'\n";
@@ -1293,6 +1424,9 @@ public class Visitador extends decafBaseVisitor<String> {
                 }
                 else{
                     //Exp 2 no es de tipo char cuando exp 1 si es char
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                            + ". Expected 'char', first expression type = 'char', second expression type =. "+ type +"\n";
+                    insertarError(erroneo);
                     type = "null";
                     return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                             + ". Expected 'char', first expression type = 'char', second expression type =. "+ type +"\n";
@@ -1301,6 +1435,9 @@ public class Visitador extends decafBaseVisitor<String> {
             }
             else{
                 //No se puede hacer la operacion, exp1 no es int ni char
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                        + ". Expected 'int' or 'char', first expression type = "+ type +"\n";
+                insertarError(erroneo);
                 type = "null";
                 return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                         + ". Expected 'int' or 'char', first expression type = "+ type +"\n";
@@ -1308,6 +1445,9 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         else{
             //Error, el signo ingresado no es ninguno de los esperados
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                    + ". Expected '+' or '-', recieved "+ operation+ "\n";
+            insertarError(erroneo);
             type = "null";
             return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
                     + ". Expected '+' or '-', recieved "+ operation+ "\n";
@@ -1345,20 +1485,32 @@ public class Visitador extends decafBaseVisitor<String> {
 
                 if(!firmaExistente){
                     //Mostrar error porque del metodo, no existe con esa combinacion de parametros
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+
+                            ctx.getStart().getCharPositionInLine()+ ". "+ ctx.ID().getText() +": Firma no existente.\n";
+                    insertarError(erroneo);
                     type = "null";
-                    return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". "+ ctx.ID().getText() +": Firma no existente.\n";
+                    return error+="Error in line:" + ctx.getStart().getLine()+", "+
+                            ctx.getStart().getCharPositionInLine()+ ". "+ ctx.ID().getText() +": Firma no existente.\n";
                 }
             }
             else{
                 //Mostrar error porque el metodo no existe
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                        + ". \""+ctx.ID().getText()+"\" , Method unexistent.\n";
+                insertarError(erroneo);
                 type = "null";
-                return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". \""+ctx.ID().getText()+"\" , Method unexistent.\n";
+                return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()
+                        + ". \""+ctx.ID().getText()+"\" , Method unexistent.\n";
             }
         }
         else{
             //Error, se esperaba un metodo
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". "
+                    + ctx.ID().getText() +": Method expected.\n";
+            insertarError(erroneo);
             type = "null";
-            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". "+ ctx.ID().getText() +": Method expected.\n";
+            return error+="Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". "
+                    + ctx.ID().getText() +": Method expected.\n";
         }
 
 
@@ -1440,6 +1592,17 @@ public class Visitador extends decafBaseVisitor<String> {
             }
         }
         return  false;
+    }
+
+    public void insertarError(String error){
+        if(!listaDeErrores.contains(error)){
+            listaDeErrores.add(error);
+        }
+
+    }
+
+    public ArrayList<String> getListaDeErrores(){
+        return listaDeErrores;
     }
 
 
