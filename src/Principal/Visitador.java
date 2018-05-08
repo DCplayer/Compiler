@@ -46,7 +46,7 @@ public class Visitador extends decafBaseVisitor<String> {
         for(decafParser.DeclarationContext g: dc){
             visit(g);
         }
-        return  visitChildren(ctx); 
+        return "ProgramaTerminado";
 
     }
 
@@ -88,21 +88,31 @@ public class Visitador extends decafBaseVisitor<String> {
         visit(ctx.varType());
         String id = ctx.ID().getText();
 
-        //name , type, signature, return value, isStruct, symbolTable
-        Symbol simbolo = new Symbol(id, type, null, type, false, null, true, false, false);
-        ArrayList<Tuplas> tuplas = new ArrayList<>();
-        SyTable tabla = new SyTable(tuplas);
-        Tuplas tupla = new Tuplas(simbolo.getName(), simbolo);
-        if(!(verificadorAmbitos.size() == 0)){
-            tabla  = verificadorAmbitos.peek();
-            tabla.getTablaDeSimbolos().add(tupla);
+        boolean revisado = revisarExistencia(id);
+        if (!revisado){
+            //name , type, signature, return value, isStruct, symbolTable
+            Symbol simbolo = new Symbol(id, type, null, type, false, null, true, false, false);
+            ArrayList<Tuplas> tuplas = new ArrayList<>();
+            SyTable tabla = new SyTable(tuplas);
+            Tuplas tupla = new Tuplas(simbolo.getName(), simbolo);
+            if(!(verificadorAmbitos.size() == 0)){
+                tabla  = verificadorAmbitos.peek();
+                tabla.getTablaDeSimbolos().add(tupla);
+            }
+            else{
+                tabla.getTablaDeSimbolos().add(tupla);
+                verificadorAmbitos.push(tabla);
+            }
         }
         else{
-            tabla.getTablaDeSimbolos().add(tupla);
-            verificadorAmbitos.push(tabla);
+            //Error, ya existe la variable a crear
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + ctx.ID().getText()+ " ya fue declarada anteriormente.\n";
+            insertarError(erroneo);
+            type = "null";
         }
 
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -115,44 +125,57 @@ public class Visitador extends decafBaseVisitor<String> {
 
         visit(ctx.varType());
         String id = ctx.ID().getText();
-
+        boolean revisado =revisarExistencia(id);
         Integer num = Integer.parseInt(ctx.NUM().getText());
 
-        if(num > 0){
-            //name, type, signature, cantElement, isStruct, tipoStruct
-            boolean isStruct = false;
-            String tipoStruct = null;
+        if(!revisado){
+            if(num > 0){
+                //name, type, signature, cantElement, isStruct, tipoStruct
+                boolean isStruct = false;
+                String tipoStruct = null;
 
-            if(!(type.equals("int") || type.equals("boolean") || type.equals("char")|| type.equals("void"))){
-                isStruct = true;
-                tipoStruct = id;
-            }
-            Conjunto lista = new Conjunto(id, type, null, num , isStruct, tipoStruct, false,
-                    false, true);
-            Tuplas tupla = new Tuplas(lista.getName(), lista);
-            ArrayList<Tuplas> tuplas = new ArrayList<>();
-            SyTable tabla = new SyTable(tuplas);
-            if(!(verificadorAmbitos.size() == 0))  {
-                tabla = verificadorAmbitos.peek();
-                tabla.getTablaDeSimbolos().add(tupla);
+                if(!(type.equals("int") || type.equals("boolean") || type.equals("char")|| type.equals("void"))){
+                    isStruct = true;
+                    tipoStruct = id;
+                }
+                Conjunto lista = new Conjunto(id, type, null, num , isStruct, tipoStruct, false,
+                        false, true);
+                Tuplas tupla = new Tuplas(lista.getName(), lista);
+                ArrayList<Tuplas> tuplas = new ArrayList<>();
+                SyTable tabla = new SyTable(tuplas);
+                if(!(verificadorAmbitos.size() == 0))  {
+                    tabla = verificadorAmbitos.peek();
+                    tabla.getTablaDeSimbolos().add(tupla);
+                }
+                else{
+                    tabla.getTablaDeSimbolos().add(tupla);
+                    verificadorAmbitos.push(tabla);
+                }
+
             }
             else{
-                tabla.getTablaDeSimbolos().add(tupla);
-                verificadorAmbitos.push(tabla);
+                //Error, la cantidad de la lista es  un entero 0 o negativo
+                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
+                insertarError(erroneo);
+                type = "null";
+
+
             }
 
         }
         else{
-            //Error, la cantidad de la lista es  un entero 0 o negativo
+            //Error, ya existia la variable
+            //Error, ya existe la variable a crear
             String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                    ". " + ctx.ID().getText()+ " ha sido creada, no existe instancia de esta variable.\n";
+                    ". " + ctx.ID().getText()+ " ya fue declarada anteriormente.\n";
             insertarError(erroneo);
             type = "null";
 
-
         }
 
-        return visitChildren(ctx);
+
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -198,7 +221,7 @@ public class Visitador extends decafBaseVisitor<String> {
         struct.setSymbolTable(stack);
 
 
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -208,7 +231,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitIntVar(decafParser.IntVarContext ctx) {
         type = "int";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -218,7 +241,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitCharVar(decafParser.CharVarContext ctx) {
         type = "char";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -228,7 +251,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitBoolVar(decafParser.BoolVarContext ctx) {
         type = "boolean";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -238,7 +261,8 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitStructVar(decafParser.StructVarContext ctx) {
         type = ctx.ID().getText();
-        return visitChildren(ctx); }
+        return "";
+    }
     /**
      * {@inheritDoc}
      *
@@ -257,7 +281,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitVoidVar(decafParser.VoidVarContext ctx) {
         type = "void";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -289,7 +313,7 @@ public class Visitador extends decafBaseVisitor<String> {
         }
 
         visit(ctx.block());
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -299,7 +323,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitIntMeth(decafParser.IntMethContext ctx) {
         type = "int";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -309,7 +333,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitCharMeth(decafParser.CharMethContext ctx) {
         type = "char";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -319,7 +343,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitBoolMeth(decafParser.BoolMethContext ctx) {
         type = "boolean";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -329,7 +353,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitVoidMeth(decafParser.VoidMethContext ctx) {
         type = "void";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -347,7 +371,7 @@ public class Visitador extends decafBaseVisitor<String> {
         Tuplas tupla = new Tuplas(id, simbolo);
         paramTuplas.add(tupla);
 
-        return  visitChildren(ctx);
+        return  "";
     }
     /**
      * {@inheritDoc}
@@ -364,7 +388,7 @@ public class Visitador extends decafBaseVisitor<String> {
                 false, false, true);
         Tuplas tupla = new Tuplas(conjunto.getName(), conjunto);
         paramTuplas.add(tupla);
-        return visitChildren(ctx);
+        return "";
 
     }
     /**
@@ -375,7 +399,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitIntParam(decafParser.IntParamContext ctx) {
         type = "int";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -385,7 +409,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitCharParam(decafParser.CharParamContext ctx) {
         type = "char";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -395,7 +419,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitBoolParam(decafParser.BoolParamContext ctx) {
         type = "boolean";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -429,10 +453,14 @@ public class Visitador extends decafBaseVisitor<String> {
         //Buscar las tuplas creadas en la declaracion, si se realizo alguno y lueog vera las variables
         //declaradas en el bloque para meterlas a la tabla de simbolos
 
-
-        SyTable ambitoActual = new SyTable(paramTuplas);
+        ArrayList<Tuplas> imitation = new ArrayList<>();
+        for (Tuplas t: paramTuplas){
+            imitation.add(t);
+        }
+        SyTable ambitoActual = new SyTable(imitation);
         //______holacomoteva
         verificadorAmbitos.push(ambitoActual);
+        paramTuplas.clear();
 
         int numeroBlock = ctx.blockHelp().size();
 
@@ -442,7 +470,7 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         //Pop Sytable
         verificadorAmbitos.pop();
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -467,7 +495,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -495,7 +523,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -520,7 +548,8 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
+
     }
     /**
      * {@inheritDoc}
@@ -530,7 +559,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitReturnStm(decafParser.ReturnStmContext ctx) {
         type = "void";
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -583,7 +612,7 @@ public class Visitador extends decafBaseVisitor<String> {
         if(locationType.equals(expressionType)){
             temporal = objeto;
             type = "void";
-            return visitChildren(ctx);
+            return "";
         }
         else{
             //Error, los tipos de la asignacion no son iguales y no son null
@@ -593,7 +622,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -603,7 +632,8 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitEndStm(decafParser.EndStmContext ctx) {
         type = "void";
-        return visitChildren(ctx); }
+        return "";
+    }
     /**
      * {@inheritDoc}
      *
@@ -663,7 +693,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -693,7 +723,7 @@ public class Visitador extends decafBaseVisitor<String> {
                     String deepening = visit(ctx.location());
                     structurado = true;
                     if(structurado && !(type.equals("null"))){
-                        return visitChildren(ctx);
+                        return "";
                     }
                 }
 
@@ -724,7 +754,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -824,7 +854,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -922,7 +952,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
   /**
      * {@inheritDoc}
@@ -997,7 +1027,7 @@ public class Visitador extends decafBaseVisitor<String> {
             insertarError(erroneo);
             type = "null";
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc
@@ -1032,7 +1062,8 @@ public class Visitador extends decafBaseVisitor<String> {
 
 
         }
-        return visitChildren(ctx);
+        return "";
+
     }
     /**
      * {@inheritDoc}
@@ -1114,7 +1145,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -1142,7 +1173,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitParentExp(decafParser.ParentExpContext ctx) {
         visit(ctx.expression());
-        return visitChildren(ctx);
+        return "";
     }
     /**
      * {@inheritDoc}
@@ -1181,7 +1212,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
 
     }
     /**
@@ -1220,7 +1251,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
 
     }
     /**
@@ -1280,7 +1311,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
 
     }
     /**
@@ -1363,7 +1394,7 @@ public class Visitador extends decafBaseVisitor<String> {
             type = "null";
 
         }
-        return visitChildren(ctx);
+        return "";
 
     }
     /**
@@ -1425,7 +1456,7 @@ public class Visitador extends decafBaseVisitor<String> {
         /**
          * Tipo en Type = tipo del metodo.**/
 
-        return visitChildren(ctx);
+        return "";
     }
 
     /**
