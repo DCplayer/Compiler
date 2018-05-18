@@ -244,8 +244,7 @@ public class Visitador extends decafBaseVisitor<String> {
         return "";
     }
     /**
-     * {@inheritDoc}
-     *
+ queer      *
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
@@ -656,34 +655,72 @@ public class Visitador extends decafBaseVisitor<String> {
         //Al visitar esto, el objeto se queda en la variable objeto
         String id = ctx.ID().getText();
         boolean revision = false;
+        boolean objAntStruct = false;
         if(objetoAnterior == null){
             revision = revisarExistencia(id);
         }
         else{
             objeto = objetoAnterior;
             revision = true;
+            objAntStruct = true;
         }
 
         if(revision){
-            if(objeto.isSymbol()){
-                type = objeto.getType();
-                objetoAnterior = null;
-                return id;
-            }
-            else if (objeto.isMethod()){
-                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                        ". " + id + " Debe de ser una lista o un simbolo, no un metodo.\n";
-                insertarError(erroneo);
-                type = "null";
+            if(objAntStruct){
+                if(objeto.isSymbol()){
+                    Symbol simbolo = (Symbol)objeto;
+                    if(simbolo.isStruct()){
+                        Stack<SyTable> temporal = simbolo.getSymbolTable();
+                        //aqui me quede
+                        searchInStack(temporal, id);
+                        if(!type.equals("null")){
+                            objetoAnterior = null;
+                            return id;
+
+                        }
+                        else{
+                            //Error: No se encontro el atributo buscado
+                            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                    ". Atributo " + id + " no es un atributo de " +objeto.getName()+ ".\n";
+                            insertarError(erroneo);
+                            type = "null";
+                        }
+
+
+                    }
+                    else{
+                        //Error: no es un struct, pero si un simbolo
+                        String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                ". " + objeto.getName() + ", si es un simbolo, no es un struct .\n";
+                        insertarError(erroneo);
+                        type = "null";
+                    }
+                }
+                else{
+                    //Error: Struct no entra como symbolo
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + objeto.getName() + " No es un Simbolo legible correctamente.\n";
+                    insertarError(erroneo);
+                    type = "null";
+                }
             }
             else{
-                String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                        ". " + id + " no es un symbolo o una lista.\n";
-                insertarError(erroneo);
-                type = "null";
+
+                if(objeto.isSymbol() || objeto.isMethod()){
+                    type = objeto.getType();
+                    objetoAnterior = null;
+                    return id;
+                }
+
+                else{
+                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                            ". " + id + " no es un symbolo o una llamada a metodo.\n";
+                    insertarError(erroneo);
+                    type = "null";
+
+                }
 
             }
-
         }
         else{
             //Error, ID no existente
@@ -1565,6 +1602,22 @@ public class Visitador extends decafBaseVisitor<String> {
             listaDeErrores.add(error);
         }
 
+    }
+
+    public void searchInStack (Stack<SyTable> stack, String buscado){
+        type = "null";
+        boolean terminacion = true;
+        for(SyTable tabla: stack){
+            if(terminacion){
+                for (Tuplas tupla: tabla.getTablaDeSimbolos()){
+                    if(tupla.getNombre().equals(buscado)){
+                        type = tupla.getElemento().getType();
+                        break;
+                    }
+                }
+            }
+
+        }
     }
 
     public ArrayList<String> getListaDeErrores(){
