@@ -753,10 +753,12 @@ public class Visitador extends decafBaseVisitor<String> {
 
         if(revision){
             if(objeto.isSymbol()){
+                type = objeto.getType();
                 String tipoSymbol = type;
                 Symbol temporal = (Symbol) objeto;
                 boolean structurado = false;
                 if(temporal.isStruct()){
+                    objetoAnterior = objeto;
                     String deepening = visit(ctx.location());
                     structurado = true;
                     if(structurado && !(type.equals("null"))){
@@ -820,35 +822,46 @@ public class Visitador extends decafBaseVisitor<String> {
                     if(objeto.isConjunto()){
                         Conjunto lista = (Conjunto) objeto;
 
-                        if(lista.isStruct()){
-                            String atributo = visit(ctx.location());
+                        //Si el numero puesto en la lista pertenece a la cantiada de elementos en la lista
+                        if(lista.getCantElementos()> Integer.parseInt(expresion)){
+                            if(lista.isStruct()){
+                                objetoAnterior = objeto;
+                                String atributo = visit(ctx.location());
 
-                            if(!type.equals("null")){
-                                //obtener el objeto dentro de la lista
-                                Conjunto resultado = (Conjunto) objeto;
-                                type = resultado.getTipoStruct();
-                                int indice = Integer.parseInt(expresion);
-                                String respuesta = "" + resultado.getContenido().get(indice);
-                                objeto = (Elemento) resultado.getContenido().get(indice);
-                                return respuesta;
+                                if(!type.equals("null")){
+                                    //obtener el objeto dentro de la lista
+                                    Conjunto resultado = (Conjunto) objeto;
+                                    type = resultado.getTipoStruct();
+                                    int indice = Integer.parseInt(expresion);
+                                    String respuesta = "" + resultado.getContenido().get(indice);
+                                    objeto = (Elemento) resultado.getContenido().get(indice);
+                                    return respuesta;
+
+                                }
+                                else{
+                                    String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                                            ". " + ctx.location().getText() + " no existe o no pudo ser encontrado.\n";
+                                    insertarError(erroneo);
+                                    type = "null";
+
+                                }
 
                             }
                             else{
+                                //Contenido de la lista no es struct, marcar error.
                                 String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                                        ". " + ctx.location().getText() + " no existe o no pudo ser encontrado.\n";
+                                        ". " + id + " no es una lista con Structs.\n";
                                 insertarError(erroneo);
                                 type = "null";
 
                             }
-
                         }
                         else{
-                            //Contenido de la lista no es struct, marcar error.
+                            //Error: index our of bounds
                             String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                                    ". " + id + " no es una lista con Structs.\n";
+                                    ". " + ctx.ID().getText()+ " indexOutOfBounds.\n";
                             insertarError(erroneo);
                             type = "null";
-
                         }
 
                     }
@@ -943,7 +956,7 @@ public class Visitador extends decafBaseVisitor<String> {
                         else{
                             //Error indexOutOfBounds
                             String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                                    ". " + expresion + " no es de tipo 'int'.\n";
+                                    ". " + expresion + " indexOutOfBounds.\n";
                             insertarError(erroneo);
                             type = "null";
 

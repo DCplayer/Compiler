@@ -25,8 +25,8 @@ int patas;
 boolean esGsnato; 
 }
 void main(int num1) {
-     char res;
+     int  res;
      res = metodo2(4, 'c');
-     felino.patas = 'c';
+     felino.patas = 5;
 }
  }
