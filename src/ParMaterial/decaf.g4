@@ -8,7 +8,7 @@ fragment LETTER: ('a'..'z')|('A'..'Z');
 
 
 program:
-            'class' 'Program' '{' declaration* '}'      # initProgram ;
+            'class' ID '{' declaration* '}'      # initProgram ;
 declaration:
             structDeclaration                           # declaraionStruct
            |varDeclaration                              # declarationVar

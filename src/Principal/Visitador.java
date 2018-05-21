@@ -27,8 +27,17 @@ public class Visitador extends decafBaseVisitor<String> {
             null, null, false, true, false );
     private boolean declaration = false;
     private ArrayList<Tuplas> paramTuplas = new ArrayList<>();
-
     private ArrayList<Tuplas> recentlyCreatedTuplas = new ArrayList<>();
+
+    //Variables para creacion de codigo intermedio
+    private String codigo = "";
+    private String subrutinas = "";
+    private int conteoTemporal = 0;
+    private int conteoSubrutina = 0;
+    //PARA TOMAR EN CUENTA:
+    // el numero de subrutina no es para los metodos, porque esos labels
+    // se pueden crear con sus nombres, esto es para condicionales.
+
     public String getError() {
         return error;
     }
@@ -46,6 +55,8 @@ public class Visitador extends decafBaseVisitor<String> {
         for(decafParser.DeclarationContext g: dc){
             visit(g);
         }
+
+        // Aqui debe de aplicarse la creacion del documento
         return "ProgramaTerminado";
 
     }
