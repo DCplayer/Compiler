@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b048760f-8be6-46bd-8c6b-e1f65d64a860" name="Default" comment="" />
+    <list default="true" id="b048760f-8be6-46bd-8c6b-e1f65d64a860" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,7 +19,7 @@
     <window id="1">
       <content type="file-editors">
         <state>
-          <leaf>
+          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
             <file leaf-file-name="decaf.g4" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
                 <provider selected="true" editor-type-id="text-editor">
@@ -62,12 +64,9 @@
       <file leaf-file-name="Visitador.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
+            <state relative-caret-position="17">
               <caret line="1244" column="5" selection-start-line="1244" selection-start-column="5" selection-end-line="1244" selection-end-column="5" />
-              <folding>
-                <element signature="e#57330#57331#0" expanded="true" />
-                <element signature="e#57373#57374#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -120,7 +119,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/com/codebind/App.form" />
-        <option value="$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
+        <option value="$USER_HOME$/jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
         <option value="$PROJECT_DIR$/src/com/codebind/App.java" />
         <option value="$PROJECT_DIR$/src/parser/SyTable.java" />
         <option value="$PROJECT_DIR$/src/parser/Elemento.java" />
@@ -230,10 +229,12 @@
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/jars/antlr-4.7.1-complete.jar.zip!/" />
+    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_69bd5e6f85e4842f07db71c9618a621154c52254/cmd/git.exe" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -656,7 +657,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23692636" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32715008" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32657418" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -758,10 +759,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4046">
           <caret line="238" column="49" selection-start-line="238" selection-start-column="49" selection-end-line="238" selection-end-column="49" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -789,10 +787,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23885">
           <caret line="1405" column="6" selection-start-line="1405" selection-start-column="6" selection-end-line="1405" selection-end-column="6" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -813,10 +808,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23885">
           <caret line="1405" column="6" selection-start-line="1405" selection-start-column="6" selection-end-line="1405" selection-end-column="6" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -837,14 +829,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10404">
           <caret line="612" column="37" selection-start-line="612" selection-start-column="37" selection-end-line="612" selection-end-column="37" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
+    <entry file="jar://$USER_HOME$/jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
     <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
@@ -872,7 +861,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
+    <entry file="jar://$USER_HOME$/jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
     <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
@@ -884,10 +873,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10404">
           <caret line="612" column="37" selection-start-line="612" selection-start-column="37" selection-end-line="612" selection-end-column="37" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -911,7 +897,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
+    <entry file="jar://$USER_HOME$/jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
     <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
@@ -923,10 +909,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23800">
           <caret line="1400" column="46" selection-start-line="1400" selection-start-column="46" selection-end-line="1400" selection-end-column="46" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -950,7 +933,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
+    <entry file="jar://$USER_HOME$/jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
     <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
@@ -962,10 +945,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23800">
           <caret line="1400" column="46" selection-start-line="1400" selection-start-column="46" selection-end-line="1400" selection-end-column="46" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -981,10 +961,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1666">
           <caret line="98" column="0" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1046,16 +1023,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
+    <entry file="jar://$USER_HOME$/jar/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/tree/AbstractParseTreeVisitor.class" />
     <entry file="file://$PROJECT_DIR$/src/com/codebind/App.form">
-      <provider editor-type-id="ui-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="ui-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/codebind/App.java">
@@ -1070,7 +1047,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="590">
           <caret line="384" column="59" selection-start-line="384" selection-start-column="49" selection-end-line="384" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1078,7 +1054,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
           <caret line="384" column="0" selection-start-line="384" selection-start-column="0" selection-end-line="390" selection-end-column="104" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1092,12 +1067,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
+        <state relative-caret-position="17">
           <caret line="1244" column="5" selection-start-line="1244" selection-start-column="5" selection-end-line="1244" selection-end-column="5" />
-          <folding>
-            <element signature="e#57330#57331#0" expanded="true" />
-            <element signature="e#57373#57374#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
