@@ -30,10 +30,11 @@ public class Visitador extends decafBaseVisitor<String> {
     private ArrayList<Tuplas> recentlyCreatedTuplas = new ArrayList<>();
 
     //Variables para creacion de codigo intermedio
-    private String codigo = "";
+    private String codigoEmitido = "\t.text\n";
+    private String data = "\t.data\n";
     private String subrutinas = "";
-    private int conteoTemporal = 0;
-    private int conteoSubrutina = 0;
+    private int conteoLabel = 0;
+    private int conteoParametro = 0;
     //PARA TOMAR EN CUENTA:
     // el numero de subrutina no es para los metodos, porque esos labels
     // se pueden crear con sus nombres, esto es para condicionales.
@@ -50,8 +51,12 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitInitProgram(decafParser.InitProgramContext ctx) {
         listaDeErrores = new ArrayList<>();
+        String id = ctx.ID().getText();
         List<decafParser.DeclarationContext> dc = ctx.declaration();
 
+        /*CODIGO INTERMEDIO*/
+            data =  id + ":\n" + data;
+        /*CODIGO INTERMEDIO*/
         for(decafParser.DeclarationContext g: dc){
             visit(g);
         }
@@ -492,6 +497,8 @@ public class Visitador extends decafBaseVisitor<String> {
         String stm = visit(ctx.expression());
         if(type.equals("boolean")){
             String resultado = "";
+
+
             if(stm.equals("true")){
                 resultado = visit(ctx.block());
             }
@@ -1476,7 +1483,15 @@ public class Visitador extends decafBaseVisitor<String> {
                 //Si existe el metodo, crear una lista de strings con le tipo de datos que es cada uno
                 //Verificar si ese tipo de datos es parte del signature del metodo
                 List<decafParser.ArgContext> argumentos = ctx.arg();
+                if(argumentos.size() > 4){
+                    String interrupcion = "\n------------------------------------------------\nEl lenguaje Mips solo " +
+                                            "perimte el uso de 4 parametros. El metodo " + identificador + " utiliza mas" +
+                                            " de los que se pueden soportar con 4 registros." +
+                                            "\n------------------------------------------------\n";
+                    codigoEmitido = codigoEmitido + interrupcion;
+                }
                 for(decafParser.ArgContext a: argumentos){
+
                     String value = visit(a);
                     argType.add(value);
                 }
@@ -1530,6 +1545,15 @@ public class Visitador extends decafBaseVisitor<String> {
         //Expresion de argumento, determinara el valor del argumento y el tipo del mismo
         String prevencion = visit(ctx.argumentType());
         return prevencion;
+    }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override public String visitArgLiteral(decafParser.ArgLiteralContext ctx) {
+        return visit(ctx.literal());
     }
     /**
      * {@inheritDoc}

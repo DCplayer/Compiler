@@ -382,6 +382,13 @@ public interface decafVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionArg(decafParser.ExpressionArgContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code argLiteral}
+	 * labeled alternative in {@link decafParser#arg}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgLiteral(decafParser.ArgLiteralContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code argumentTypeInt}
 	 * labeled alternative in {@link decafParser#argumentType}.
 	 * @param ctx the parse tree

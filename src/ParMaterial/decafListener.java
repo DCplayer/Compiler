@@ -644,6 +644,18 @@ public interface decafListener extends ParseTreeListener {
 	 */
 	void exitExpressionArg(decafParser.ExpressionArgContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code argLiteral}
+	 * labeled alternative in {@link decafParser#arg}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgLiteral(decafParser.ArgLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code argLiteral}
+	 * labeled alternative in {@link decafParser#arg}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgLiteral(decafParser.ArgLiteralContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code argumentTypeInt}
 	 * labeled alternative in {@link decafParser#argumentType}.
 	 * @param ctx the parse tree
