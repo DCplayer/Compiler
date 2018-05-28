@@ -35,9 +35,12 @@ public class Visitador extends decafBaseVisitor<String> {
     private String subrutinas = "";
     private int conteoLabel = 0;
     private int conteoParametro = 0;
-    //PARA TOMAR EN CUENTA:
-    // el numero de subrutina no es para los metodos, porque esos labels
-    // se pueden crear con sus nombres, esto es para condicionales.
+    private int numeroData = 0;
+
+    /*Para argumentos*/
+    private boolean simpleArgument = true;
+    private String nucleoArgumento = "";
+
 
     public String getError() {
         return error;
@@ -1473,6 +1476,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitMethodCallDecl(decafParser.MethodCallDeclContext ctx) {
         //Chequear primero que existe el metodo
+        conteoParametro = 0;
         declaration = false;
         String identificador = ctx.ID().getText();
 
@@ -1489,11 +1493,67 @@ public class Visitador extends decafBaseVisitor<String> {
                                             " de los que se pueden soportar con 4 registros." +
                                             "\n------------------------------------------------\n";
                     codigoEmitido = codigoEmitido + interrupcion;
+
                 }
                 for(decafParser.ArgContext a: argumentos){
-
                     String value = visit(a);
-                    argType.add(value);
+                    if(!(type.equals("null"))){
+                        //Define diferencia entre meterse con un literal o un ID en los argumentos
+                        if(simpleArgument){
+                            if(nucleoArgumento.equals("")){
+                                //valores integers
+                                codigoEmitido = codigoEmitido + "li\t$a" + conteoParametro + ", "+ value +"\n";
+                                conteoParametro++;
+
+                            }
+                            else if(nucleoArgumento.equals("true")){
+                                //valores verdaderos en booleanos
+                                value = "1";
+                                codigoEmitido = codigoEmitido + "li\t$a" + conteoParametro + ", "+ value +"\n";
+                                conteoParametro++;
+
+                            }
+                            else if (nucleoArgumento.equals("false")){
+                                //valores falsos en booleanos
+                                value = "0";
+                                codigoEmitido = codigoEmitido + "li\t$a" + conteoParametro + ", "+ value +"\n";
+                                conteoParametro++;
+                            }
+                            else{
+                                //valores char
+                                data = data + "D" + numeroData + ":\t.asciiz \"" + value +"\"\n";
+                                numeroData++;
+
+                                codigoEmitido = codigoEmitido + "la\t$a" + conteoParametro + ", D"+ (numeroData -1)+"\n";
+                                conteoParametro++;
+
+                            }
+                        }
+                        else{
+                            //Valores que fueron ingresados con ID y que si existen.
+                            String tipoDeData = "";
+                            if(type.equals("int")){
+
+                            }
+                            else if (type.equals("char")){
+                                tipoDeData = ".asciiz ";
+
+                            }
+                            else{
+                                tipoDeData = ".word ";
+
+                            }
+                            //VALUE TIENE QUE ENTREGAR UN VALOR. HACERLO EN LA ASIGNACION. DE ESTA MANERA EN LA ASIGNACION
+                            //SI TENES A = B
+                            //ENTONCES SE DEBE DE PONER EN EL OBJETO DE TIPO A LAS FUNCION DE SET Y GET VALUE;
+                            data = data + value + ":\t" + tipoDeData;
+
+                        }
+
+                        argType.add(type);
+                    }
+
+
                 }
                 boolean firmaExistente = false;
                 if(temporal.getTypeValue().contains(argType)){
@@ -1543,8 +1603,22 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitExpressionArg(decafParser.ExpressionArgContext ctx) {
         //Expresion de argumento, determinara el valor del argumento y el tipo del mismo
-        String prevencion = visit(ctx.argumentType());
-        return prevencion;
+        String id = ctx.ID().getText();
+        simpleArgument = false;
+        boolean revision = revisarExistencia(id);
+        if(revision){
+            return id;
+        }
+        else{
+            //No existe el argumento declarado en el MethodCall
+            type = "null";
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+ ". "
+                    + ctx.ID().getText() +" no ha sido declarado.\n";
+            insertarError(erroneo);
+            return "";
+
+        }
+
     }
     /**
      * {@inheritDoc}
@@ -1590,6 +1664,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitLiteralInt(decafParser.LiteralIntContext ctx) {
         //Valor Numerico: NUM
+        simpleArgument = true;
         type = "int";
         return ctx.NUM().getText();
     }
@@ -1601,8 +1676,10 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitLiteralChar(decafParser.LiteralCharContext ctx) {
         //Valor String: CHAR
+        simpleArgument = true;
         type  = "char";
         String retorno = ctx.CHAR().getText();
+        nucleoArgumento = retorno;
         return retorno;
     }
     /**
@@ -1613,7 +1690,9 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String  visitLiteralTrue(decafParser.LiteralTrueContext ctx) {
         //Valor booleano: Verdadero
+        simpleArgument = true;
         type = "boolean";
+        nucleoArgumento = "true";
         return "true";
     }
     /**
@@ -1624,7 +1703,9 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String  visitLiteralFalse(decafParser.LiteralFalseContext ctx) {
         //Valor booleano: Falso
+        simpleArgument = true;
         type = "boolean";
+        nucleoArgumento = "false";
         return "false";
 
     }
@@ -1667,6 +1748,8 @@ public class Visitador extends decafBaseVisitor<String> {
 
         }
     }
+
+
 
     public ArrayList<String> getListaDeErrores(){
         return listaDeErrores;

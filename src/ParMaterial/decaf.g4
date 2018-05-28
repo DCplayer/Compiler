@@ -78,7 +78,7 @@ expression:
 methodCall:
             ID '(' (arg (','arg)*)?  ')'                # methodCallDecl;
 arg:
-            argumentType ID                            # expressionArg
+             ID                                        # expressionArg
             | literal                                  # argLiteral;
 
 argumentType:
