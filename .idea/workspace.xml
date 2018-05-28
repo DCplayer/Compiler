@@ -4,7 +4,6 @@
     <list default="true" id="b048760f-8be6-46bd-8c6b-e1f65d64a860" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Principal/Visitador.java" afterPath="$PROJECT_DIR$/src/Principal/Visitador.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/parser/Elemento.java" afterPath="$PROJECT_DIR$/src/parser/Elemento.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,8 +24,8 @@
             <file leaf-file-name="decaf.g4" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="107">
-                    <caret line="17" column="71" selection-start-line="17" selection-start-column="58" selection-end-line="17" selection-end-column="71" />
+                  <state relative-caret-position="-29">
+                    <caret line="48" column="67" selection-start-line="48" selection-start-column="58" selection-end-line="48" selection-end-column="67" />
                     <folding />
                   </state>
                 </provider>
@@ -79,8 +78,8 @@
       <file leaf-file-name="Visitador.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="166" column="0" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+            <state relative-caret-position="436">
+              <caret line="562" column="35" selection-start-line="562" selection-start-column="35" selection-end-line="562" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -668,7 +667,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527491249794</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Creacion de Codigo intermedio perfecto sobre MethodCall, VarDeclarations y solo :D">
+      <created>1527532806923</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1527532806923</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -730,7 +736,8 @@
     <MESSAGE value="ListLoc fue modificado, listo para produccion con structs" />
     <MESSAGE value="haciendo que funcione con el jar de ANTLR OTRA VEZ&#10;" />
     <MESSAGE value="Avanzando en argumentos y method call&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Avanzando en argumentos y method call&#10;" />
+    <MESSAGE value="Creacion de Codigo intermedio perfecto sobre MethodCall, VarDeclarations y solo :D" />
+    <option name="LAST_COMMIT_MESSAGE" value="Creacion de Codigo intermedio perfecto sobre MethodCall, VarDeclarations y solo :D" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1071,16 +1078,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ParMaterial/decaf.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="17" column="71" selection-start-line="17" selection-start-column="58" selection-end-line="17" selection-end-column="71" />
+        <state relative-caret-position="-29">
+          <caret line="48" column="67" selection-start-line="48" selection-start-column="58" selection-end-line="48" selection-end-column="67" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Principal/Visitador.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="166" column="0" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+        <state relative-caret-position="436">
+          <caret line="562" column="35" selection-start-line="562" selection-start-column="35" selection-end-line="562" selection-end-column="35" />
           <folding />
         </state>
       </provider>

@@ -44,6 +44,9 @@ public class Visitador extends decafBaseVisitor<String> {
     /*Para declaracions*/
     private String nucleoDecl;
 
+    /*Para condicionales*/
+    private boolean condicional = true;
+
     public String getError() {
         return error;
     }
@@ -547,7 +550,6 @@ public class Visitador extends decafBaseVisitor<String> {
         String stm = visit(ctx.expression());
         if(type.equals("boolean")){
             String resultado = "";
-
 
             if(stm.equals("true")){
                 resultado = visit(ctx.block());
