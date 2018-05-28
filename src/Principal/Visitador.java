@@ -41,6 +41,8 @@ public class Visitador extends decafBaseVisitor<String> {
     private boolean simpleArgument = true;
     private String nucleoArgumento = "";
 
+    /*Para declaracions*/
+    private String nucleoDecl;
 
     public String getError() {
         return error;
@@ -63,6 +65,8 @@ public class Visitador extends decafBaseVisitor<String> {
         for(decafParser.DeclarationContext g: dc){
             visit(g);
         }
+        System.out.println(data+"\n"+codigoEmitido);
+
 
         // Aqui debe de aplicarse la creacion del documento
         return "ProgramaTerminado";
@@ -104,11 +108,16 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitNotValuedVar(decafParser.NotValuedVarContext ctx) {
         //varType ID ';'
+        nucleoDecl = "";
         visit(ctx.varType());
         String id = ctx.ID().getText();
 
         boolean revisado = revisarExistencia(id);
         if (!revisado){
+            /*CODIGO INTERMEDIO*/
+            data = data + id + ":\t" + nucleoDecl;
+            /*CODIGO INTERMEDIO*/
+
             //name , type, signature, return value, isStruct, symbolTable
             Symbol simbolo = new Symbol(id, type, null, type, false, null, true, false, false);
             ArrayList<Tuplas> tuplas = new ArrayList<>();
@@ -150,6 +159,9 @@ public class Visitador extends decafBaseVisitor<String> {
         if(!revisado){
             if(num > 0){
                 //name, type, signature, cantElement, isStruct, tipoStruct
+                /*CODIGO INTERMEDIO*/
+                data = data + id + ":\t.space " + (num*4)+"\n";
+                /*CODIGO INTERMEDIO*/
                 boolean isStruct = false;
                 String tipoStruct = null;
 
@@ -230,9 +242,17 @@ public class Visitador extends decafBaseVisitor<String> {
 
         //TablasTrampa para meter al struct recien creado
         List<decafParser.VarDeclarationContext> vc = ctx.varDeclaration();
+        int numeroVariables = 0;
         for(decafParser.VarDeclarationContext g: vc){
             String varDec = visit(g);
+            numeroVariables++;
         }
+
+        /*CODIGO INTERMEDIO*/
+        data = data + id + ":\t" + ".space " + (numeroVariables*4)+ "\n";
+        nucleoDecl = ".space " + (numeroVariables*4)+ "\n";
+
+        /*CODIGO INTERMEDIO*/
 
         SyTable tablon = verificadorAmbitos.pop();
         Stack<SyTable> stack = new Stack<>();
@@ -249,6 +269,9 @@ public class Visitador extends decafBaseVisitor<String> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public String visitIntVar(decafParser.IntVarContext ctx) {
+        /*CODIGO INTERMEDIO*/
+        nucleoDecl = ".word 0\n";
+        /*CODIGO INTERMEDIO*/
         type = "int";
         return "";
     }
@@ -259,6 +282,9 @@ public class Visitador extends decafBaseVisitor<String> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public String visitCharVar(decafParser.CharVarContext ctx) {
+        /*CODIGO INTERMEDIO*/
+        nucleoDecl = ".asciiz ''\n";
+        /*CODIGO INTERMEDIO*/
         type = "char";
         return "";
     }
@@ -268,6 +294,9 @@ public class Visitador extends decafBaseVisitor<String> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public String visitBoolVar(decafParser.BoolVarContext ctx) {
+        /*CODIGO INTERMEDIO*/
+        nucleoDecl = ".word 0\n";
+        /*CODIGO INTERMEDIO*/
         type = "boolean";
         return "";
     }
@@ -278,7 +307,25 @@ public class Visitador extends decafBaseVisitor<String> {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override public String visitStructVar(decafParser.StructVarContext ctx) {
-        type = ctx.ID().getText();
+        String pruebaTipo = ctx.ID().getText();
+        if(revisarExistencia(pruebaTipo)){
+            type =  pruebaTipo;
+
+            /*CODIGO INTERMEDIO*/
+            Symbol contenedor = (Symbol) objeto;
+            int counter =  contenedor.getSymbolTable().get(0).getTablaDeSimbolos().size();
+            nucleoDecl = ".space " + (counter *4) + "\n";
+
+            /*CODIGO INTERMEDIO*/
+        }
+        else{
+            //Error, el tipo de expression no es booleano
+            String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                    ". " + pruebaTipo+ " no ha sido definido aun'.\n";
+            insertarError(erroneo);
+            type = "null";
+        }
+
         return "";
     }
     /**
@@ -1340,16 +1387,28 @@ public class Visitador extends decafBaseVisitor<String> {
                 if(type.equals("int")){
                     type = "int";
                     if(opearation.equals("*")){
+                        /*CODIGO INTERMEDIO*/
+                        if(simpleArgument){
+
+                        }
+                        else{
+
+                        }
+                        /*CODIGO INTERMEDIO*/
                         int value = Integer.parseInt(exp1) * Integer.parseInt(exp2);
                         return "" + value;
 
                     }
                     else if(opearation.equals("/")){
+                        /*CODIGO INTERMEDIO*/
+                        /*CODIGO INTERMEDIO*/
                         int value = Integer.parseInt(exp1) / Integer.parseInt(exp2);
                         return "" + value;
 
                     }
                     else{
+                        /*CODIGO INTERMEDIO*/
+                        /*CODIGO INTERMEDIO*/
                         int value = Integer.parseInt(exp1) % Integer.parseInt(exp2);
                         return ""  + value;
 
@@ -1476,6 +1535,7 @@ public class Visitador extends decafBaseVisitor<String> {
      */
     @Override public String visitMethodCallDecl(decafParser.MethodCallDeclContext ctx) {
         //Chequear primero que existe el metodo
+        nucleoArgumento = "";
         conteoParametro = 0;
         declaration = false;
         String identificador = ctx.ID().getText();
@@ -1521,7 +1581,7 @@ public class Visitador extends decafBaseVisitor<String> {
                             }
                             else{
                                 //valores char
-                                data = data + "D" + numeroData + ":\t.asciiz \"" + value +"\"\n";
+                                data = data + "D" + numeroData + ":\t.asciiz " + value +"\n";
                                 numeroData++;
 
                                 codigoEmitido = codigoEmitido + "la\t$a" + conteoParametro + ", D"+ (numeroData -1)+"\n";
@@ -1533,6 +1593,7 @@ public class Visitador extends decafBaseVisitor<String> {
                             //Valores que fueron ingresados con ID y que si existen.
                             String tipoDeData = "";
                             if(type.equals("int")){
+                                tipoDeData = ".word";
 
                             }
                             else if (type.equals("char")){
@@ -1546,7 +1607,7 @@ public class Visitador extends decafBaseVisitor<String> {
                             //VALUE TIENE QUE ENTREGAR UN VALOR. HACERLO EN LA ASIGNACION. DE ESTA MANERA EN LA ASIGNACION
                             //SI TENES A = B
                             //ENTONCES SE DEBE DE PONER EN EL OBJETO DE TIPO A LAS FUNCION DE SET Y GET VALUE;
-                            data = data + value + ":\t" + tipoDeData;
+                            data = data + value + ":\t" + tipoDeData + objeto.getValue() + "\n";
 
                         }
 
@@ -1555,6 +1616,10 @@ public class Visitador extends decafBaseVisitor<String> {
 
 
                 }
+                /*CODIGO INTERMEDIO*/
+                codigoEmitido = codigoEmitido + "jal\t" + identificador;
+                numeroData = 0;
+                /*CODIGO INTERMEDIO*/
                 boolean firmaExistente = false;
                 if(temporal.getTypeValue().contains(argType)){
                     firmaExistente = true;

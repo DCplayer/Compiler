@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Elemento {
     private String name;
     private String type;
+    private String value;
     private ArrayList<ArrayList<String>> signature = new ArrayList<>();
     private boolean isMethod;
     private boolean isConjunto;
@@ -41,5 +42,13 @@ public class Elemento {
 
     public boolean isSymbol() {
         return isSymbol;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
