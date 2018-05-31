@@ -52,6 +52,11 @@ public class Visitador extends decafBaseVisitor<String> {
     private int conteoSkip = 0;
     private String nucleoCondicional = "";
 
+    /*Para condicionales RelExp*/
+    private boolean isLocation = false;
+    private String idLocation = "";
+    private int numExp = 0;
+
 
 
     public String getError() {
@@ -822,6 +827,8 @@ public class Visitador extends decafBaseVisitor<String> {
         //Revisar si el ID existe y pertenece a un simbolo.
         //Al visitar esto, el objeto se queda en la variable objeto
         String id = ctx.ID().getText();
+        isLocation = true;
+        idLocation = id;
         boolean revision = false;
         boolean objAntStruct = false;
         if(objetoAnterior == null){
@@ -977,6 +984,8 @@ public class Visitador extends decafBaseVisitor<String> {
     @Override public String visitListLocExpr(decafParser.ListLocExprContext ctx) {
         //Revisar si el ID existe y pertenece a un simbolo.
         String id = ctx.ID().getText();
+        isLocation = true;
+        idLocation = id;
         String expresion = visit(ctx.expression());
         if(type.equals("int")){
             String possibleGuion = expresion.substring(0,1);
@@ -1109,6 +1118,7 @@ public class Visitador extends decafBaseVisitor<String> {
                 if(type.equals("int")){
                     Integer num = Integer.parseInt(expresion);
                     if(num >=0){
+                        numExp = num;
                         //chequear si el numero esta dentro del rango de elementos de la lista
                         Conjunto temporal = (Conjunto) objeto;
                         if(temporal.getCantElementos() > num){
@@ -1190,43 +1200,121 @@ public class Visitador extends decafBaseVisitor<String> {
         String operation = ctx.op.getText();
         String exp1 =  visit(ctx.expression(0));
         if(type.equals("int")){
+            /*CODIGO INTERMEDIO*/
+            if(isLocation){
+                codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                        +numExp + "(" +idLocation + ")\n";
+                conteoLabel++;
+            }
+            else{
+                codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp1 + "\n";
+                conteoLabel++;
+            }
+            /*CODIGO INTERMEDIO*/
             String exp2 = visit(ctx.expression(1));
             if(type.equals("int")){
+                if(isLocation){
+                    codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                            +numExp + "(" +idLocation + ")\n";
+                    conteoLabel++;
+                }
+                else{
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp2 + "\n";
+                    conteoLabel++;
+                }
+                /*CODIGO INTERMEDIO*/
                 type = "boolean";
                 if(operation.equals("<")){
-
+                    /*CODIGO INTERMEDIO*/
+                    codigoEmitido = codigoEmitido + "blt\t$t" + (conteoLabel-2) + ", $t" + (conteoLabel-1)+
+                                    ", L" +conteoDestinos+ "\n";
+                    conteoDestinos ++ ;
+                    codigoEmitido = codigoEmitido + " b\tL" + conteoDestinos + "\n";
+                    codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 1\nb\tskip"+conteoSkip+"\n";
+                    codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 0\n";
+                    codigoEmitido = codigoEmitido + "skip" + conteoSkip + ":\n";
+                    conteoSkip ++ ;
+                    conteoDestinos++;
+                    conteoLabel++;
+                    /*CODIGO INTERMEDIO*/
                     if(Integer.parseInt(exp1) < Integer.parseInt(exp2)){
+
                         return "true";
                     }
 
-                    else{
+                    else if(Integer.parseInt(exp1) >= Integer.parseInt(exp2)){
                         return "false";
                     }
 
+
                 }
                 else if(operation.equals(">")){
+                    /*CODIGO INTERMEDIO*/
+                    codigoEmitido = codigoEmitido + "bgt\t$t" + (conteoLabel-2) + ", $t" + (conteoLabel-1)+
+                            ", L" +conteoDestinos+ "\n";
+                    conteoDestinos ++ ;
+                    codigoEmitido = codigoEmitido + " b\tL" + conteoDestinos + "\n";
+                    codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 1\nb\tskip"+conteoSkip+"\n";
+                    codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 0\n";
+                    codigoEmitido = codigoEmitido + "skip" + conteoSkip + ":\n";
+                    conteoSkip ++ ;
+                    conteoDestinos++;
+                    conteoLabel++;
+                    /*CODIGO INTERMEDIO*/
                     if(Integer.parseInt(exp1) > Integer.parseInt(exp2)){
                         return "true";
                     }
-                    else{
+                    else if (Integer.parseInt(exp1) <= Integer.parseInt(exp2)){
                         return "false";
                     }
 
                 }
                 else if(operation.equals("<=")){
+                    /*CODIGO INTERMEDIO*/
+                    codigoEmitido = codigoEmitido + "ble\t$t" + (conteoLabel-2) + ", $t" + (conteoLabel-1)+
+                            ", L" +conteoDestinos+ "\n";
+                    conteoDestinos ++ ;
+                    codigoEmitido = codigoEmitido + " b\tL" + conteoDestinos + "\n";
+                    codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 1\nb\tskip"+conteoSkip+"\n";
+                    codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 0\n";
+                    codigoEmitido = codigoEmitido + "skip" + conteoSkip + ":\n";
+                    conteoSkip ++ ;
+                    conteoDestinos++;
+                    conteoLabel++;
+                    /*CODIGO INTERMEDIO*/
                     if(Integer.parseInt(exp1) <= Integer.parseInt(exp2)){
                         return "true";
                     }
-                    else{
+                    else if(Integer.parseInt(exp1) > Integer.parseInt(exp2)){
                         return "false";
                     }
 
                 }
                 else if(operation.equals(">=")){
+                    /*CODIGO INTERMEDIO*/
+                    codigoEmitido = codigoEmitido + "bge\t$t" + (conteoLabel-2) + ", $t" + (conteoLabel-1)+
+                            ", L" +conteoDestinos+ "\n";
+                    conteoDestinos ++ ;
+                    codigoEmitido = codigoEmitido + " b\tL" + conteoDestinos + "\n";
+                    codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 1\nb\tskip"+conteoSkip+"\n";
+                    codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 0\n";
+                    codigoEmitido = codigoEmitido + "skip" + conteoSkip + ":\n";
+                    conteoSkip ++ ;
+                    conteoDestinos++;
+                    conteoLabel++;
+                    /*CODIGO INTERMEDIO*/
                     if(Integer.parseInt(exp1) >= Integer.parseInt(exp2)){
                         return "true";
                     }
-                    else{
+                    else if(Integer.parseInt(exp1) < Integer.parseInt(exp2)){
                         return "false";
                     }
                 }
@@ -1312,11 +1400,46 @@ public class Visitador extends decafBaseVisitor<String> {
         if(operaton.equals("&&") || operaton.equals("||")){
             String exp1 = visit(ctx.expression(0));
             if(type.equals("boolean")){
+                /*CODIGO INTERMEDIO*/
+                if(isLocation){
+                    codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                            +numExp + "(" +idLocation + ")\n";
+                    conteoLabel++;
+                }
+                else{
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp1 + "\n";
+                    conteoLabel++;
+                }
+                /*CODIGO INTERMEDIO*/
                 String exp2 = visit(ctx.expression(1));
                 if(type.equals("boolean")){
+                    /*CODIGO INTERMEDIO*/
+                    if(isLocation){
+                        codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                                +numExp + "(" +idLocation + ")\n";
+                        conteoLabel++;
+                    }
+                    else{
+                        codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp2 + "\n";
+                        conteoLabel++;
+                    }
+                    /*CODIGO INTERMEDIO*/
                     //2 expresiones booleanas
                     type = "boolean";
                     if(operaton.equals("&&")){
+                        /*CODIGO INTERMEDIO*/
+                        codigoEmitido = codigoEmitido + "beq\t$t" + (conteoLabel-2) + ", 0, L" + conteoDestinos + "\n";
+                        codigoEmitido = codigoEmitido + "beq\t$t" + (conteoLabel-1) + ", 0, L" + conteoDestinos + "\n";
+                        codigoEmitido = codigoEmitido + "li\t$t"+ conteoLabel + ", 1\n";
+                        codigoEmitido  = codigoEmitido + "b\tskip" + conteoSkip;
+                        codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+                        codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 0\n";
+                        codigoEmitido = codigoEmitido + "skip" + conteoSkip+":\n";
+                        conteoLabel++;
+                        conteoDestinos++;
+                        conteoSkip++;
+                        /*CODIGO INTERMEDIO*/
+
                         if(exp1.equals(exp2) && exp1.equals("false")){
                             return "false";
                         }
@@ -1330,6 +1453,18 @@ public class Visitador extends decafBaseVisitor<String> {
 
                     }
                     else{
+                        /*CODIGO INTERMEDIO*/
+                        codigoEmitido = codigoEmitido + "beq\t$t" + (conteoLabel-2) + ", 1, L" + conteoDestinos + "\n";
+                        codigoEmitido = codigoEmitido + "beq\t$t" + (conteoLabel-1) + ", 1, L" + conteoDestinos + "\n";
+                        codigoEmitido = codigoEmitido + "li\t$t"+ conteoLabel + ", 0\n";
+                        codigoEmitido  = codigoEmitido + "b\tskip" + conteoSkip;
+                        codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+                        codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 1\n";
+                        codigoEmitido = codigoEmitido + "skip" + conteoSkip+":\n";
+                        conteoLabel++;
+                        conteoDestinos++;
+                        conteoSkip++;
+                        /*CODIGO INTERMEDIO*/
                         if(exp1.equals(exp2) && exp1.equals("false")){
                             return "false";
                         }
@@ -1411,8 +1546,47 @@ public class Visitador extends decafBaseVisitor<String> {
     @Override public String visitEqOpExp(decafParser.EqOpExpContext ctx) {
         String operation = ctx.op.getText();
         String exp1 = visit(ctx.expression(0));
+        /*CODIGO INTERMEDIO*/
+        if(isLocation){
+            codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                    +numExp + "(" +idLocation + ")\n";
+            conteoLabel++;
+        }
+        else{
+            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp1 + "\n";
+            conteoLabel++;
+        }
+        /*CODIGO INTERMEDIO*/
+
+
         String exp2 = visit(ctx.expression(1));
+        /*CODIGO INTERMEDIO*/
+        if(isLocation){
+            codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                    +numExp + "(" +idLocation + ")\n";
+            conteoLabel++;
+        }
+        else{
+            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp2 + "\n";
+            conteoLabel++;
+        }
+        /*CODIGO INTERMEDIO*/
         if(operation.equals("==")){
+            /*CODIGO INTERMEDIO*/
+            codigoEmitido = codigoEmitido + "beq\t$t" + (conteoLabel-2) + ", $t" + (conteoLabel-1)+
+                    ", L" +conteoDestinos+ "\n";
+            conteoDestinos ++ ;
+            codigoEmitido = codigoEmitido + " b\tL" + conteoDestinos + "\n";
+            codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n";
+            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 1\nb\tskip"+conteoSkip+"\n";
+            codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 0\n";
+            codigoEmitido = codigoEmitido + "skip" + conteoSkip + ":\n";
+            conteoSkip ++ ;
+            conteoDestinos++;
+            conteoLabel++;
+            /*CODIGO INTERMEDIO*/
+
             type = "boolean";
             if(exp1.equals(exp2)){
                 return "true";
@@ -1424,6 +1598,21 @@ public class Visitador extends decafBaseVisitor<String> {
 
         }
         else if (operation.equals("!=")){
+            /*CODIGO INTERMEDIO*/
+            codigoEmitido = codigoEmitido + "blt\t$t" + (conteoLabel-2) + ", $t" + (conteoLabel-1)+
+                    ", L" +conteoDestinos+ "\n";
+            conteoDestinos ++ ;
+            codigoEmitido = codigoEmitido + " b\tL" + conteoDestinos + "\n";
+            codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n";
+            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 0\nb\tskip"+conteoSkip+"\n";
+            codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", 1\n";
+            codigoEmitido = codigoEmitido + "skip" + conteoSkip + ":\n";
+            conteoSkip ++ ;
+            conteoDestinos++;
+            conteoLabel++;
+            /*CODIGO INTERMEDIO*/
+
             type = "boolean";
             if(exp1.equals(exp2)){
                 return "false";

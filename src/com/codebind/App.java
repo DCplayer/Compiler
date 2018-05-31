@@ -93,10 +93,10 @@ public class App {
                     MensajeError.setText(resultadoErrores);
                 }
 
-                //TreeViewer bosque = new TreeViewer(Arrays.asList(parser.getRuleNames()), tree );
-                //PanelArbolVisual.removeAll();
-                //PanelArbolVisual.updateUI();
-                //PanelArbolVisual.add(bosque);
+                TreeViewer bosque = new TreeViewer(Arrays.asList(parser.getRuleNames()), tree );
+                PanelArbolVisual.removeAll();
+                PanelArbolVisual.updateUI();
+                PanelArbolVisual.add(bosque);
 
 
             }
