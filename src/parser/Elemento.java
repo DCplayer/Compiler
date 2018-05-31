@@ -10,6 +10,7 @@ public class Elemento {
     private boolean isMethod;
     private boolean isConjunto;
     private boolean isSymbol;
+    private String temporal;
 
     public Elemento(String name, String type, ArrayList<String> signature, boolean symbol, boolean method, boolean conjunto) {
         this.name = name;
@@ -50,5 +51,13 @@ public class Elemento {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getTemporal() {
+        return temporal;
+    }
+
+    public void setTemporal(String temporal) {
+        this.temporal = temporal;
     }
 }

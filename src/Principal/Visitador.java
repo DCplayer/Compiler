@@ -30,10 +30,11 @@ public class Visitador extends decafBaseVisitor<String> {
     private ArrayList<Tuplas> recentlyCreatedTuplas = new ArrayList<>();
 
     //Variables para creacion de codigo intermedio
-    private String codigoEmitido = "\t.text\n";
+    private String codigoEmitido = "";
     private String data = "\t.data\n";
     private String subrutinas = "";
     private int conteoLabel = 0;
+    private int conteoDestinos= 0;
     private int conteoParametro = 0;
     private int numeroData = 0;
 
@@ -44,8 +45,14 @@ public class Visitador extends decafBaseVisitor<String> {
     /*Para declaracions*/
     private String nucleoDecl;
 
+    /*Para block*/
+    private Stack<String> codigoGuardado = new Stack<>();
+
     /*Para condicionales*/
-    private boolean condicional = true;
+    private int conteoSkip = 0;
+    private String nucleoCondicional = "";
+
+
 
     public String getError() {
         return error;
@@ -68,7 +75,8 @@ public class Visitador extends decafBaseVisitor<String> {
         for(decafParser.DeclarationContext g: dc){
             visit(g);
         }
-        System.out.println(data+"\n"+codigoEmitido);
+        String resultado = data + "\n\t.text\nj main" + codigoEmitido + "\n" + subrutinas;
+        System.out.println(resultado);
 
 
         // Aqui debe de aplicarse la creacion del documento
@@ -362,6 +370,10 @@ public class Visitador extends decafBaseVisitor<String> {
         visit(ctx.methodType());
         String tipo =type;
 
+        /*CODIGO INTERMEDIO*/
+        String  contenidoSubrutina = id + ":\n";
+        /*CODIGO INTERMEDIO*/
+
         //Falta crear el Metodo :D
         //name, type, signature, return value, type value, symbolTable
         recentlyCreated = new Method(id, tipo, argType, argSignature, argType, null, false,
@@ -376,11 +388,15 @@ public class Visitador extends decafBaseVisitor<String> {
 
         // hay que ver si existe y se crea una nueva signature o bien que
         List<decafParser.ParameterContext> parametros = ctx.parameter();
+
         for(decafParser.ParameterContext p: parametros){
+            //regresa id. de una pa setear el Temporal
             visit(p);
         }
 
-        visit(ctx.block());
+        String block = visit(ctx.block());
+        contenidoSubrutina = contenidoSubrutina + block;
+        subrutinas = subrutinas + contenidoSubrutina + "jr\t$ra\n\n";
         return "";
     }
     /**
@@ -436,10 +452,11 @@ public class Visitador extends decafBaseVisitor<String> {
         //name, tyoe, signature, returnvalue, isStruct, symboltable, symbol, method, conjunto
         Symbol simbolo = new Symbol(id, type, null, type, false, null,
                 true, false, false);
+        simbolo.setTemporal("t" + conteoLabel);
+        conteoLabel++;
         Tuplas tupla = new Tuplas(id, simbolo);
         paramTuplas.add(tupla);
-
-        return  "";
+        return  id;
     }
     /**
      * {@inheritDoc}
@@ -454,9 +471,11 @@ public class Visitador extends decafBaseVisitor<String> {
         //name, type, signature, cantElementos, isStruct, tipoStruct, symbol, method, conjunto
         Conjunto conjunto = new Conjunto(id, type, null, 0, false, null,
                 false, false, true);
+        conjunto.setTemporal("t" + conteoLabel);
+        conteoLabel++;
         Tuplas tupla = new Tuplas(conjunto.getName(), conjunto);
         paramTuplas.add(tupla);
-        return "";
+        return id;
 
     }
     /**
@@ -521,12 +540,18 @@ public class Visitador extends decafBaseVisitor<String> {
         //Buscar las tuplas creadas en la declaracion, si se realizo alguno y lueog vera las variables
         //declaradas en el bloque para meterlas a la tabla de simbolos
 
+        /*CODIGO INTERMEDIO*/
+        String ingreso = new String(codigoEmitido);
+        codigoGuardado.push(ingreso);
+        codigoEmitido = "";
+        /*CODIGO INTERMEDIO*/
+
+
         ArrayList<Tuplas> imitation = new ArrayList<>();
         for (Tuplas t: paramTuplas){
             imitation.add(t);
         }
         SyTable ambitoActual = new SyTable(imitation);
-        //______holacomoteva
         verificadorAmbitos.push(ambitoActual);
         paramTuplas.clear();
 
@@ -538,7 +563,12 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         //Pop Sytable
         verificadorAmbitos.pop();
-        return "";
+
+        /*CODIGO INTERMEDIO*/
+        String string = new String(codigoEmitido);
+        codigoEmitido = codigoGuardado.pop();
+        /*CODIGO INTERMEDIO*/
+        return string;
     }
     /**
      * {@inheritDoc}
@@ -549,11 +579,27 @@ public class Visitador extends decafBaseVisitor<String> {
     @Override public String visitIfDeclStm(decafParser.IfDeclStmContext ctx) {
         String stm = visit(ctx.expression());
         if(type.equals("boolean")){
-            String resultado = "";
-
-            if(stm.equals("true")){
-                resultado = visit(ctx.block());
+            String stmResult = "";
+            if(!Boolean.parseBoolean(stm)){
+                stmResult = "0";
             }
+            else{
+                stmResult = "1";
+            }
+
+            /*CODIGO INTERMEDIO*/
+            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + stmResult + "\n";
+
+            //https://courses.cs.washington.edu/courses/cse378/03wi/lectures/mips-asm-examples.html
+            codigoEmitido = codigoEmitido + "beq\t$t" + conteoLabel + ", $zero, L" + conteoDestinos + "\n";
+            /*CODIGO INTERMEDIO*/
+
+            String resultado = visit(ctx.block());
+            codigoEmitido = codigoEmitido + resultado;
+            codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n";
+
+            conteoLabel++;
+            conteoDestinos++;
             return resultado;
         }
         else{
@@ -575,14 +621,30 @@ public class Visitador extends decafBaseVisitor<String> {
     @Override public String visitIfElseDeclStm(decafParser.IfElseDeclStmContext ctx) {
         String stm = visit(ctx.expression());
         if(type.equals("boolean")){
-            String resultado  = "";
-            if(stm.equals("true")){
-                resultado = visit(ctx.block(0));
-                            }
-            else{
-                resultado = visit(ctx.block(1));
+            String stmResult = "";
+            if(!(Boolean.parseBoolean(stm))){
+                stmResult = "0";
             }
-            return resultado;
+            else{
+                stmResult = "1";
+            }
+
+            /*CODIGO INTERMEDIO*/
+            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + stmResult + "\n";
+            codigoEmitido = codigoEmitido + "beq\t$t" + conteoLabel + ", 1, L" + conteoDestinos + "\n";
+            conteoDestinos++;
+            codigoEmitido = codigoEmitido + "b\tL" + conteoDestinos + "\n";
+            /*CODIGO INTERMEDIO*/
+
+            String resultadoB1  = visit(ctx.block(0));
+            String resultadoB2  = visit(ctx.block(1));
+            codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n"+resultadoB1+"\nb\tskip\n";
+            codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n"+resultadoB2+"\nb\tskip"+conteoSkip+"\n";
+            codigoEmitido = codigoEmitido + "skip"+ conteoSkip+ ":\n";
+            conteoSkip++;
+            conteoLabel++;
+            conteoDestinos++;
+            return "";
         }
         else{
             //Error, el tipo de expression no es booleano
@@ -604,9 +666,26 @@ public class Visitador extends decafBaseVisitor<String> {
         String stm = visit(ctx.expression());
         if(type.equals("boolean")){
             String resultado = "";
-            while(stm.equals("true")){
-                resultado  = visit(ctx.block());
+            String stmResult = "";
+            if(!(Boolean.parseBoolean(stm))){
+                stmResult = "0";
             }
+            else{
+                stmResult = "1";
+            }
+
+            resultado  = visit(ctx.block());
+            /*CODIGO INTERMEDIO*/
+            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + stmResult + "\n";
+            codigoEmitido = codigoEmitido + "L" + conteoDestinos+ ":\n";
+            codigoEmitido = codigoEmitido + "beq\t$t" + conteoLabel + ", $zero, skip" + conteoSkip + "\n";
+            codigoEmitido = codigoEmitido + resultado;
+            codigoEmitido = codigoEmitido + "beq\t$t" + conteoLabel + ", 1, L" + conteoDestinos + "\n";
+            codigoEmitido = codigoEmitido + "skip" + conteoSkip + ":\n";
+            conteoLabel++;
+            conteoSkip++;
+            conteoDestinos++;
+            /*CODIGO INTERMEDIO*/
             return resultado;
         }
         else{
@@ -671,14 +750,33 @@ public class Visitador extends decafBaseVisitor<String> {
         //Luego ver si, tienen el mismo tipo de dato
         //Realizar la asignacion
 
-        visit(ctx.location());
+        String idLoc = visit(ctx.location());
         String locationType = type;
         Object temporal = objeto;
 
-        visit(ctx.expression());
+        String idExp = visit(ctx.expression());
         String expressionType = type;
 
         if(locationType.equals(expressionType)){
+            /*CODIGO INTERMEDIO*/
+            if(idExp.equals("false")){
+                idExp = "0";
+            }
+            else if(idExp.equals("true")){
+                idExp = "1";
+            }
+
+            if(!simpleArgument){
+                codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + idExp +"\n";
+            }
+            else{
+                codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + idExp +"\n";
+            }
+            conteoLabel++;
+            codigoEmitido = codigoEmitido + "sw\t$t" + conteoLabel + ", " + idLoc + "\n";
+            conteoLabel++;
+            /*CODIGO INTERMEDIO*/
+
             temporal = objeto;
             type = "void";
             return "";
@@ -741,6 +839,8 @@ public class Visitador extends decafBaseVisitor<String> {
                     Symbol simbolo = (Symbol)objeto;
                     if(simbolo.isStruct()){
                         Stack<SyTable> temporal = simbolo.getSymbolTable();
+                        codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + id + "\n";
+                        conteoLabel++;
                         //aqui me quede
                         searchInStack(temporal, id);
                         if(!type.equals("null")){
@@ -759,11 +859,14 @@ public class Visitador extends decafBaseVisitor<String> {
 
                     }
                     else{
+                        type = simbolo.getType();
+                        objetoAnterior = null;
+                        return id;
                         //Error: no es un struct, pero si un simbolo
-                        String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
-                                ". " + objeto.getName() + ", si es un simbolo, no es un struct .\n";
-                        insertarError(erroneo);
-                        type = "null";
+                        //String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
+                        //        ". " + objeto.getName() + ", si es un simbolo, no es un struct .\n";
+                        //insertarError(erroneo);
+                        //type = "null";
                     }
                 }
                 else{
@@ -832,7 +935,7 @@ public class Visitador extends decafBaseVisitor<String> {
                     String deepening = visit(ctx.location());
                     structurado = true;
                     if(structurado && !(type.equals("null"))){
-                        return "";
+                        return id;
                     }
                 }
 
@@ -899,13 +1002,17 @@ public class Visitador extends decafBaseVisitor<String> {
                                 String atributo = visit(ctx.location());
 
                                 if(!type.equals("null")){
+                                    /*CODIGO INTERMEDIO*/
+                                    int indice = Integer.parseInt(expresion);
+                                    codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + (4*indice) +
+                                                                        "(" +id + ")\n";
+                                    conteoLabel++;
+                                    /*CODIGO INTERMEDIO*/
+
                                     //obtener el objeto dentro de la lista
                                     Conjunto resultado = (Conjunto) objeto;
                                     type = resultado.getTipoStruct();
-                                    int indice = Integer.parseInt(expresion);
-                                    String respuesta = "" + resultado.getContenido().get(indice);
-                                    objeto = (Elemento) resultado.getContenido().get(indice);
-                                    return respuesta;
+                                    return id;
 
                                 }
                                 else{
@@ -992,6 +1099,7 @@ public class Visitador extends decafBaseVisitor<String> {
             objeto = objetoAnterior;
             revision = true;
         }
+        type = objeto.getType();
 
 
         if(revision){
@@ -1008,11 +1116,9 @@ public class Visitador extends decafBaseVisitor<String> {
 
                             try{
                                 int indice = Integer.parseInt(visit(ctx.expression()));
-                                String value = "" + temporal.getContenido().get(indice);
                                 type = tipoLista;
-                                objeto  = (Elemento) temporal.getContenido().get(indice);
                                 objetoAnterior = null;
-                                return value;
+                                return (4*num) + "("+ id+ ")";
 
                             }catch (Exception IndexOutOfBounds ){
                                 String erroneo = "Error in line:" + ctx.getStart().getLine()+", "+ ctx.getStart().getCharPositionInLine()+
@@ -1088,6 +1194,7 @@ public class Visitador extends decafBaseVisitor<String> {
             if(type.equals("int")){
                 type = "boolean";
                 if(operation.equals("<")){
+
                     if(Integer.parseInt(exp1) < Integer.parseInt(exp2)){
                         return "true";
                     }
@@ -1385,17 +1492,33 @@ public class Visitador extends decafBaseVisitor<String> {
         if(opearation.equals("*") ||opearation.equals("/") ||opearation.equals("%") ){
             String exp1 = visit(ctx.expression(0));
             if(type.equals("int")){
+                /*CODIGO INTERMEDIO*/
+                if(simpleArgument){
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp1 +"\n";
+                }
+                else{
+                    revisarExistencia(exp1);
+                    codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + objeto.getName() +"\n";
+                }
+                conteoLabel++;
+                /*CODIGO INTERMEDIO*/
                 String exp2 = visit(ctx.expression(1));
                 if(type.equals("int")){
                     type = "int";
                     if(opearation.equals("*")){
                         /*CODIGO INTERMEDIO*/
                         if(simpleArgument){
-
+                            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp2 +"\n";
                         }
                         else{
-
+                            revisarExistencia(exp1);
+                            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + objeto.getName() +"\n";
                         }
+                        codigoEmitido = codigoEmitido + "mult\t$t" + (conteoLabel-1)+ ",$t" + conteoLabel +"\n";
+                        conteoLabel++;
+                        codigoEmitido = codigoEmitido + "mfhi\t$t" + conteoLabel + "\n";
+                        conteoLabel++;
+
                         /*CODIGO INTERMEDIO*/
                         int value = Integer.parseInt(exp1) * Integer.parseInt(exp2);
                         return "" + value;
@@ -1403,6 +1526,17 @@ public class Visitador extends decafBaseVisitor<String> {
                     }
                     else if(opearation.equals("/")){
                         /*CODIGO INTERMEDIO*/
+                        if(simpleArgument){
+                            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp1 +"\n";
+                        }
+                        else{
+                            revisarExistencia(exp1);
+                            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + objeto.getName() +"\n";
+                        }
+                        codigoEmitido = codigoEmitido + "div\t$t" + (conteoLabel-1)+ ",$t" + conteoLabel +"\n";
+                        conteoLabel++;
+                        codigoEmitido = codigoEmitido + "mflo\t$t" + conteoLabel + "\n";
+                        conteoLabel++;
                         /*CODIGO INTERMEDIO*/
                         int value = Integer.parseInt(exp1) / Integer.parseInt(exp2);
                         return "" + value;
@@ -1410,6 +1544,17 @@ public class Visitador extends decafBaseVisitor<String> {
                     }
                     else{
                         /*CODIGO INTERMEDIO*/
+                        if(simpleArgument){
+                            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp1 +"\n";
+                        }
+                        else{
+                            revisarExistencia(exp1);
+                            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + objeto.getName() +"\n";
+                        }
+                        codigoEmitido = codigoEmitido + "div\t$t" + (conteoLabel-1)+ ",$t" + conteoLabel +"\n";
+                        conteoLabel++;
+                        codigoEmitido = codigoEmitido + "mfhi\t$t" + conteoLabel + "\n";
+                        conteoLabel++;
                         /*CODIGO INTERMEDIO*/
                         int value = Integer.parseInt(exp1) % Integer.parseInt(exp2);
                         return ""  + value;
@@ -1457,15 +1602,50 @@ public class Visitador extends decafBaseVisitor<String> {
         if(operation.equals("+") || operation.equals("-")){
             String exp1 = visit(ctx.expression(0));
             if(type.equals("int")){
+                /*CODIGO INTERMEDIO*/
+                if(simpleArgument){
+                    codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp1 +"\n";
+                }
+                else{
+                    revisarExistencia(exp1);
+                    codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + objeto.getName() +"\n";
+                }
+                conteoLabel++;
+                /*CODIGO INTERMEDIO*/
                 String exp2 = visit(ctx.expression(1));
                 if(type.equals("int")){
                     if(operation.equals("+")){
+                        /*CODIGO INTERMEDIO*/
+                        if(simpleArgument){
+                            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp2 +"\n";
+                        }
+                        else{
+                            revisarExistencia(exp1);
+                            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + objeto.getName() +"\n";
+                        }
+                        conteoLabel++;
+                        codigoEmitido = codigoEmitido + "add\t$t" + (conteoLabel)+ ",$t" + (conteoLabel-2) +", $t"
+                                                        + (conteoLabel-1)+ "\n";
+                        conteoLabel++;
+
+                        /*CODIGO INTERMEDIO*/
                         type = "int";
                         int resultado = Integer.parseInt(exp1) + Integer.parseInt(exp2);
                         return "" + resultado;
 
                     }
                     else{
+                        if(simpleArgument){
+                            codigoEmitido = codigoEmitido + "li\t$t" + conteoLabel + ", " + exp2 +"\n";
+                        }
+                        else{
+                            revisarExistencia(exp1);
+                            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", " + objeto.getName() +"\n";
+                        }
+                        conteoLabel++;
+                        codigoEmitido = codigoEmitido + "sub\t$t" + (conteoLabel)+ ",$t" + (conteoLabel-2) +", $t"
+                                + (conteoLabel-1)+ "\n";
+                        conteoLabel++;
                         type = "int";
                         int resultado = Integer.parseInt(exp1) - Integer.parseInt(exp2);
                         return "" + resultado;
@@ -1478,8 +1658,6 @@ public class Visitador extends decafBaseVisitor<String> {
                             + ". Expected 'int', second expression type =. "+ type +"\n";
                     insertarError(erroneo);
                     type = "null";
-
-
                 }
             }
             else if (type.equals("char")){
@@ -1586,7 +1764,7 @@ public class Visitador extends decafBaseVisitor<String> {
                                 data = data + "D" + numeroData + ":\t.asciiz " + value +"\n";
                                 numeroData++;
 
-                                codigoEmitido = codigoEmitido + "la\t$a" + conteoParametro + ", D"+ (numeroData -1)+"\n";
+                                codigoEmitido = codigoEmitido + "lw\t$a" + conteoParametro + ", D"+ (numeroData -1)+"\n";
                                 conteoParametro++;
 
                             }
@@ -1619,7 +1797,7 @@ public class Visitador extends decafBaseVisitor<String> {
 
                 }
                 /*CODIGO INTERMEDIO*/
-                codigoEmitido = codigoEmitido + "jal\t" + identificador;
+                codigoEmitido = codigoEmitido + "jal\t" + identificador + "\n";
                 numeroData = 0;
                 /*CODIGO INTERMEDIO*/
                 boolean firmaExistente = false;
@@ -1733,6 +1911,7 @@ public class Visitador extends decafBaseVisitor<String> {
         //Valor Numerico: NUM
         simpleArgument = true;
         type = "int";
+        nucleoCondicional = ctx.NUM().getText();
         return ctx.NUM().getText();
     }
     /**
@@ -1747,6 +1926,7 @@ public class Visitador extends decafBaseVisitor<String> {
         type  = "char";
         String retorno = ctx.CHAR().getText();
         nucleoArgumento = retorno;
+        nucleoCondicional = retorno;
         return retorno;
     }
     /**
@@ -1760,6 +1940,7 @@ public class Visitador extends decafBaseVisitor<String> {
         simpleArgument = true;
         type = "boolean";
         nucleoArgumento = "true";
+        nucleoCondicional = "1";
         return "true";
     }
     /**
@@ -1773,6 +1954,7 @@ public class Visitador extends decafBaseVisitor<String> {
         simpleArgument = true;
         type = "boolean";
         nucleoArgumento = "false";
+        nucleoCondicional = "0";
         return "false";
 
     }

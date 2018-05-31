@@ -12,7 +12,7 @@ int metodo2 (int num1, int num2) {
      int n1;
      int numero;
      if (false) {
-          numero = false;
+          numero = 2;
 	}
     while (false) {
 	v1[1] = 3;
