@@ -79,10 +79,13 @@ public class Visitador extends decafBaseVisitor<String> {
         /*CODIGO INTERMEDIO*/
             data =  id + ":\n" + data;
         /*CODIGO INTERMEDIO*/
+        ArrayList<Tuplas> inicial = new ArrayList<>();
+        SyTable tabla = new SyTable(inicial);
+        verificadorAmbitos.push(tabla);
         for(decafParser.DeclarationContext g: dc){
             visit(g);
         }
-        String resultado = data + "\n\t.text\nj main" + codigoEmitido + "\n" + subrutinas;
+        String resultado = data + "\n\t.text\nj main\n" + codigoEmitido + "\n" + subrutinas;
         System.out.println(resultado);
         codigoEmitido = resultado;
         try {
@@ -393,6 +396,7 @@ public class Visitador extends decafBaseVisitor<String> {
         //name, type, signature, return value, type value, symbolTable
         recentlyCreated = new Method(id, tipo, argType, argSignature, argType, null, false,
                 true, false);
+
         SyTable tablaParaMetodo = verificadorAmbitos.peek();
         Tuplas nuevaTupla = new Tuplas(recentlyCreated.getName(), recentlyCreated);
         tablaParaMetodo.getTablaDeSimbolos().add(nuevaTupla);
@@ -653,7 +657,8 @@ public class Visitador extends decafBaseVisitor<String> {
 
             String resultadoB1  = visit(ctx.block(0));
             String resultadoB2  = visit(ctx.block(1));
-            codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n"+resultadoB1+"\nb\tskip\n";
+            codigoEmitido = codigoEmitido + "L" + (conteoDestinos-1)+ ":\n"+resultadoB1+"\nb\tskip"+ conteoSkip+"\n";
+            conteoSkip++;
             codigoEmitido = codigoEmitido + "L" + conteoDestinos + ":\n"+resultadoB2+"\nb\tskip"+conteoSkip+"\n";
             codigoEmitido = codigoEmitido + "skip"+ conteoSkip+ ":\n";
             conteoSkip++;
@@ -1212,7 +1217,7 @@ public class Visitador extends decafBaseVisitor<String> {
         if(type.equals("int")){
             /*CODIGO INTERMEDIO*/
             if(isLocation){
-                codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", "
                         +numExp + "(" +idLocation + ")\n";
                 conteoLabel++;
             }
@@ -1224,7 +1229,7 @@ public class Visitador extends decafBaseVisitor<String> {
             String exp2 = visit(ctx.expression(1));
             if(type.equals("int")){
                 if(isLocation){
-                    codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                    codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", "
                             +numExp + "(" +idLocation + ")\n";
                     conteoLabel++;
                 }
@@ -1412,7 +1417,7 @@ public class Visitador extends decafBaseVisitor<String> {
             if(type.equals("boolean")){
                 /*CODIGO INTERMEDIO*/
                 if(isLocation){
-                    codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                    codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", "
                             +numExp + "(" +idLocation + ")\n";
                     conteoLabel++;
                 }
@@ -1425,7 +1430,7 @@ public class Visitador extends decafBaseVisitor<String> {
                 if(type.equals("boolean")){
                     /*CODIGO INTERMEDIO*/
                     if(isLocation){
-                        codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+                        codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", "
                                 +numExp + "(" +idLocation + ")\n";
                         conteoLabel++;
                     }
@@ -1558,7 +1563,7 @@ public class Visitador extends decafBaseVisitor<String> {
         String exp1 = visit(ctx.expression(0));
         /*CODIGO INTERMEDIO*/
         if(isLocation){
-            codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", "
                     +numExp + "(" +idLocation + ")\n";
             conteoLabel++;
         }
@@ -1572,7 +1577,7 @@ public class Visitador extends decafBaseVisitor<String> {
         String exp2 = visit(ctx.expression(1));
         /*CODIGO INTERMEDIO*/
         if(isLocation){
-            codigoEmitido = codigoEmitido + "lw\t#t" + conteoLabel + ", "
+            codigoEmitido = codigoEmitido + "lw\t$t" + conteoLabel + ", "
                     +numExp + "(" +idLocation + ")\n";
             conteoLabel++;
         }
@@ -1719,8 +1724,7 @@ public class Visitador extends decafBaseVisitor<String> {
                         conteoLabel++;
 
                         /*CODIGO INTERMEDIO*/
-                        int value = Integer.parseInt(exp1) * Integer.parseInt(exp2);
-                        return "" + value;
+                        return "" ;
 
                     }
                     else if(opearation.equals("/")){
@@ -1737,8 +1741,7 @@ public class Visitador extends decafBaseVisitor<String> {
                         codigoEmitido = codigoEmitido + "mflo\t$t" + conteoLabel + "\n";
                         conteoLabel++;
                         /*CODIGO INTERMEDIO*/
-                        int value = Integer.parseInt(exp1) / Integer.parseInt(exp2);
-                        return "" + value;
+                        return "";
 
                     }
                     else{
@@ -1755,8 +1758,7 @@ public class Visitador extends decafBaseVisitor<String> {
                         codigoEmitido = codigoEmitido + "mfhi\t$t" + conteoLabel + "\n";
                         conteoLabel++;
                         /*CODIGO INTERMEDIO*/
-                        int value = Integer.parseInt(exp1) % Integer.parseInt(exp2);
-                        return ""  + value;
+                        return "" ;
 
                     }
                 }
@@ -1829,8 +1831,7 @@ public class Visitador extends decafBaseVisitor<String> {
 
                         /*CODIGO INTERMEDIO*/
                         type = "int";
-                        int resultado = Integer.parseInt(exp1) + Integer.parseInt(exp2);
-                        return "" + resultado;
+                        return "";
 
                     }
                     else{
@@ -1846,8 +1847,7 @@ public class Visitador extends decafBaseVisitor<String> {
                                 + (conteoLabel-1)+ "\n";
                         conteoLabel++;
                         type = "int";
-                        int resultado = Integer.parseInt(exp1) - Integer.parseInt(exp2);
-                        return "" + resultado;
+                        return "" ;
 
                     }
                 }
@@ -1864,7 +1864,7 @@ public class Visitador extends decafBaseVisitor<String> {
                 if(type.equals("char")){
                     if(operation.equals("+")){
                         type = "char";
-                        return exp1 + exp2;
+                        return "";
                     }
                     else{
                         //No se puede hacer resta de char :D solo concatenacion
@@ -1972,7 +1972,7 @@ public class Visitador extends decafBaseVisitor<String> {
                             //Valores que fueron ingresados con ID y que si existen.
                             String tipoDeData = "";
                             if(type.equals("int")){
-                                tipoDeData = ".word";
+                                tipoDeData = ".word ";
 
                             }
                             else if (type.equals("char")){
@@ -1986,6 +1986,7 @@ public class Visitador extends decafBaseVisitor<String> {
                             //VALUE TIENE QUE ENTREGAR UN VALOR. HACERLO EN LA ASIGNACION. DE ESTA MANERA EN LA ASIGNACION
                             //SI TENES A = B
                             //ENTONCES SE DEBE DE PONER EN EL OBJETO DE TIPO A LAS FUNCION DE SET Y GET VALUE;
+                            String res = objeto.getValue();
                             data = data + value + ":\t" + tipoDeData + objeto.getValue() + "\n";
 
                         }
