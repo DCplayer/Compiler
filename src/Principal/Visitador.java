@@ -6,6 +6,8 @@ import com.sun.org.apache.xerces.internal.util.SymbolTable;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Parameter;
 import java.security.interfaces.ECKey;
 import java.util.ArrayList;
@@ -82,6 +84,14 @@ public class Visitador extends decafBaseVisitor<String> {
         }
         String resultado = data + "\n\t.text\nj main" + codigoEmitido + "\n" + subrutinas;
         System.out.println(resultado);
+        codigoEmitido = resultado;
+        try {
+            FileWriter writer = new FileWriter("midDecaf.txt", true);
+            writer.write(resultado);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         // Aqui debe de aplicarse la creacion del documento
